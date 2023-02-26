@@ -16,19 +16,17 @@ export interface ClientPageViewProps {
   client: IClient;
   bankAccounts: IBankAccount[];
   onClickBankAccountRow: (id: string) => void;
-  blockUser: (id: string) => void;
 }
 
 const ClientPageView: React.FC<ClientPageViewProps> = ({
   client,
   bankAccounts,
   onClickBankAccountRow,
-  blockUser,
 }) => (
   <>
     <PageHeader header={`${client.lastName} ${client.firstName} ${client.middleName}`}>
       {
-        <Button icon={<PlusIcon />} type="primary" onClick={() => blockUser(client.id)}>Open new bank account</Button>
+        <Button icon={<PlusIcon />} type="primary">Open new bank account</Button>
       }
     </PageHeader>
 

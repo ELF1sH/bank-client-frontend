@@ -36,7 +36,6 @@ const ClientPageController: React.FC<ClientPageControllerProps> = ({
       client={viewModel.client!}
       bankAccounts={viewModel.bankAccounts}
       onClickBankAccountRow={onClickBankAccountRow}
-      blockUser={() => viewModel.blockUser(id!)}
     />
   );
 };

@@ -8,7 +8,7 @@ import { IClient } from '../../domain/entities/users/client';
 import PageHeader from '../../components/ui/molecules/pageHeader/PageHeader';
 import Button from '../../components/ui/atoms/button/Button';
 import { IBankAccount } from '../../domain/entities/bankAccounts/bankAccount';
-import BackIcon from '../../components/ui/atoms/icons/BackIcon';
+import PlusIcon from "../../components/ui/atoms/icons/PlusIcon";
 
 const { Text } = Typography;
 
@@ -28,7 +28,7 @@ const ClientPageView: React.FC<ClientPageViewProps> = ({
   <>
     <PageHeader header={`${client.lastName} ${client.firstName} ${client.middleName}`}>
       {
-        !client.isBlocked && <Button type="primary" onClick={() => blockUser(client.id)}>Open new bank account</Button>
+        <Button icon={<PlusIcon />} type="primary" onClick={() => blockUser(client.id)}>Open new bank account</Button>
       }
     </PageHeader>
 
@@ -80,7 +80,10 @@ const ClientPageView: React.FC<ClientPageViewProps> = ({
         dataIndex="tags"
         key="tags"
         render={(_, record: IBankAccount) => (
-          record.isClosed && <Tag color="red">Closed</Tag>
+          <>
+            {record.isClosed && <Tag color="red">Closed</Tag>}
+            {record.isCredit && <Tag color="green">Credit Bank Account</Tag>}
+          </>
         )}
       />
     </Table>

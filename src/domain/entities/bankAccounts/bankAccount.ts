@@ -3,4 +3,5 @@ export interface IBankAccount {
   accountNumber: number;
   balance: number;
   isClosed: boolean;
+  isCredit: boolean;
 }

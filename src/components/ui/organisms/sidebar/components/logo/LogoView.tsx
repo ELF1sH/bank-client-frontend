@@ -13,7 +13,7 @@ interface LogoViewProps {
 const LogoView: React.FC<LogoViewProps> = ({
   isSidebarCollapsed,
 }) => (
-  <Link to="/clients">
+  <Link to="/profile">
     <LogoWrapper>
       <LogoBankStyled $isSidebarCollapsed={isSidebarCollapsed} />
 

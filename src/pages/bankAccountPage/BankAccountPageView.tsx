@@ -39,6 +39,9 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
     {
       bankAccount.isClosed && <Tag color="red">Closed</Tag>
     }
+    {
+      bankAccount.isCredit && <Tag color="green">Credit Bank Account</Tag>
+    }
 
     <Title level={3}>Operations history</Title>
     <Table

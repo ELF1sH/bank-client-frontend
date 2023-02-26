@@ -30,10 +30,6 @@ const ClientPageController: React.FC<ClientPageControllerProps> = ({
     navigate(`/bank-accounts/${id}`);
   };
 
-  const bankToClientsList = () => {
-    navigate('/clients');
-  };
-
   return (
     <ClientPageViewWithLoader
       isLoading={viewModel.isLoading}

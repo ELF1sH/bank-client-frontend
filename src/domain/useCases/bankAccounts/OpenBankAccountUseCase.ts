@@ -4,22 +4,22 @@ import {
   ShowSuccessNotificationFunction,
   SuccessNotificationType,
 } from '../../../modules/notification/types';
-import { ICreditRepository } from '../../repositories/api/interfaces/ICreditRepository';
-import { ICreateCreditTariffPayload } from '../../entities/credit/creditTariff';
+import { IBankAccountRepository } from '../../repositories/api/interfaces/IBankAccountRepository';
+import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 
-export class CreateCreditTariffUseCase {
+export class OpenBankAccountUseCase {
   public constructor(
-    private _creditRepository: ICreditRepository,
+    private _bankAccountRepository: IBankAccountRepository,
     private readonly _onError: ShowErrorFunction,
     private readonly _onSuccess: ShowSuccessNotificationFunction,
   ) { }
 
-  public async createCreditTariff(
-    payload: ICreateCreditTariffPayload,
-  ): Promise<void> {
-    return this._creditRepository.createCreditTariff(payload)
-      .then(() => {
+  public async openBankAccount(): Promise<IBankAccount | void> {
+    return this._bankAccountRepository.openBankAccount()
+      .then((value) => {
         this._onSuccess(SuccessNotificationType.SUCCESSFULLY_CREATED);
+
+        return value;
       })
       .catch((e) => {
         this._onError(ErrorNotificationType.FAILED_TO_SEND_DATA);

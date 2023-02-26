@@ -6,12 +6,14 @@ import {
   mockGettingBankAccount,
   mockGettingBankAccountsList,
   mockGettingOperationsHistory,
+  mockOpenningBankAccount,
 } from './mocks/bankAccountMocks';
 import { IOperation } from '../../entities/bankAccounts/operation';
 
 mockGettingBankAccountsList();
 mockGettingBankAccount();
 mockGettingOperationsHistory();
+mockOpenningBankAccount();
 
 class BankAccountRepository implements IBankAccountRepository {
   public getBankAccounts(id: string) {
@@ -30,6 +32,12 @@ class BankAccountRepository implements IBankAccountRepository {
     return axios
       .get(`/operations-history?id=${id}`)
       .then((response: AxiosResponse<IOperation[]>) => response.data);
+  }
+
+  public openBankAccount() {
+    return axios
+      .get('/open-bank-account')
+      .then((response: AxiosResponse<IBankAccount>) => response.data);
   }
 }
 

@@ -8,7 +8,7 @@ import { IClient } from '../../domain/entities/users/client';
 import PageHeader from '../../components/ui/molecules/pageHeader/PageHeader';
 import Button from '../../components/ui/atoms/button/Button';
 import { IBankAccount } from '../../domain/entities/bankAccounts/bankAccount';
-import PlusIcon from "../../components/ui/atoms/icons/PlusIcon";
+import PlusIcon from '../../components/ui/atoms/icons/PlusIcon';
 
 const { Text } = Typography;
 
@@ -16,18 +16,18 @@ export interface ClientPageViewProps {
   client: IClient;
   bankAccounts: IBankAccount[];
   onClickBankAccountRow: (id: string) => void;
+  openBankAccount: () => void;
 }
 
 const ClientPageView: React.FC<ClientPageViewProps> = ({
   client,
   bankAccounts,
   onClickBankAccountRow,
+  openBankAccount,
 }) => (
   <>
     <PageHeader header={`${client.lastName} ${client.firstName} ${client.middleName}`}>
-      {
-        <Button icon={<PlusIcon />} type="primary">Open new bank account</Button>
-      }
+      <Button icon={<PlusIcon />} type="primary" onClick={openBankAccount}>Open new bank account</Button>
     </PageHeader>
 
     {

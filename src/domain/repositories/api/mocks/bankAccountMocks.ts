@@ -20,3 +20,9 @@ export const mockGettingOperationsHistory = () => {
     .onGet(/\/operations-history\?id=*/)
     .reply(() => [200, getOperationsHistory]);
 };
+
+export const mockOpenningBankAccount = () => {
+  mock
+    .onGet('/open-bank-account')
+    .reply(() => [200, getBankAccount]);
+};

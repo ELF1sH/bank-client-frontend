@@ -1,11 +1,13 @@
 import {
   action, computed, makeObservable, observable, runInAction, toJS,
 } from 'mobx';
+import { NavigateFunction } from 'react-router-dom';
 
 import { IClient } from '../../domain/entities/users/client';
 import { GetClientUseCase } from '../../domain/useCases/clients/GetClientUseCase';
 import { GetBankAccountsUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountsUseCase';
 import { IBankAccount } from '../../domain/entities/bankAccounts/bankAccount';
+import { OpenBankAccountUseCase } from '../../domain/useCases/bankAccounts/OpenBankAccountUseCase';
 
 export class ClientPageViewModel {
   @observable private _isLoading: boolean = true;
@@ -17,6 +19,8 @@ export class ClientPageViewModel {
   public constructor(
     private _getClientUseCase: GetClientUseCase,
     private _getBankAccountsUseCase: GetBankAccountsUseCase,
+    private _openBankAccountUseCase: OpenBankAccountUseCase,
+    private _navigate: NavigateFunction,
   ) {
     makeObservable(this);
   }
@@ -62,6 +66,20 @@ export class ClientPageViewModel {
           runInAction(() => {
             this._bankAccounts = bankAccounts;
           });
+        }
+      })
+      .finally(() => {
+        this._setIsLoading(false);
+      });
+  }
+
+  @action public openBankAccount() {
+    this._setIsLoading(true);
+
+    this._openBankAccountUseCase.openBankAccount()
+      .then((bankAccount) => {
+        if (bankAccount) {
+          this._navigate(`/bank-accounts/${bankAccount.id}`);
         }
       })
       .finally(() => {

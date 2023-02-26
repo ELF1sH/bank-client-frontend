@@ -1,0 +1,80 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "import",
+    "jsx-a11y",
+    "unused-imports"
+  ],
+  "rules": {
+    "no-use-before-define": "off",
+    "no-unused-vars": "off",
+    "class-methods-use-this": "off",
+    "no-shadow": "off",
+    "no-underscore-dangle": "off",
+    "no-nested-ternary": "off",
+    "no-template-curly-in-string": "off",
+    "no-useless-constructor": "off",
+    "no-empty-function": "off",
+
+    "react/function-component-definition": "off",
+    "react/jsx-filename-extension": "off",
+    "react/require-default-props": "off",
+    "react/no-array-index-key": "off",
+    "react/prop-types": "off",
+    "react/jsx-no-useless-fragment": "off",
+    "react/destructuring-assignment": "off",
+    "react/jsx-props-no-spreading": "off",
+
+    // "unused-imports/no-unused-imports-ts": 2, // comment this line if you don't wanna auto delete unused imports
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
+    "import/order": [
+      "error",
+      {
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "assets/**",
+            "group": "index",
+            "position": "after"
+          },
+          {
+            "pattern": "@chakra-ui/react",
+            "group": "external",
+            "position": "after"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [],
+        "groups": [
+          "builtin",
+          ["external", "type"],
+          "unknown",
+          ["internal", "sibling", "parent"],
+          "index",
+          "object"
+        ]
+      }
+    ]
+  }
+}

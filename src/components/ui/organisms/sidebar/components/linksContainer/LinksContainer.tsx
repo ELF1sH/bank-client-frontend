@@ -14,12 +14,12 @@ export const LinksContainer: React.FC<LinksContainerProps> = ({ isSidebarCollaps
   const { pathname } = useLocation();
   const curSubDirectory = `/${pathname.split('/')[1]}`;
 
-  const subDirectories = ['/clients', '/employees', '/tariffs'];
+  const subDirectories = ['/profile', '/my-credits'];
 
   return (
     <Wrapper>
       <SidebarItem
-        text="Clients"
+        text="Profile"
         to={subDirectories[0]}
         isSidebarCollapsed={isSidebarCollapsed}
         isActive={subDirectories[0] === curSubDirectory}
@@ -28,19 +28,10 @@ export const LinksContainer: React.FC<LinksContainerProps> = ({ isSidebarCollaps
       </SidebarItem>
 
       <SidebarItem
-        text="Employees"
+        text="My credits"
         to={subDirectories[1]}
         isSidebarCollapsed={isSidebarCollapsed}
         isActive={subDirectories[1] === curSubDirectory}
-      >
-        <UserIcon />
-      </SidebarItem>
-
-      <SidebarItem
-        text="Credit tariffs"
-        to={subDirectories[2]}
-        isSidebarCollapsed={isSidebarCollapsed}
-        isActive={subDirectories[2] === curSubDirectory}
       >
         <InfoIcon />
       </SidebarItem>

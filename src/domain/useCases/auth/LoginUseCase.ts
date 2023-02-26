@@ -24,7 +24,7 @@ export class LoginUseCase {
         this._tokenRepository?.setAccessToken(accessToken);
       }
 
-      this._navigate('/clients');
+      this._navigate('/profile');
     } catch (e) {
       const axiosError = (e as AxiosError).response;
 

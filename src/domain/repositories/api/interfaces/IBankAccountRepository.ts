@@ -6,4 +6,5 @@ export interface IBankAccountRepository {
   getBankAccount: (id: string) => Promise<IBankAccount>;
   getOperationsHistory: (id: string) => Promise<IOperation[]>;
   openBankAccount: () => Promise<IBankAccount>;
+  closeBankAccount: (bankAccountId: string) => Promise<IBankAccount>;
 }

@@ -40,6 +40,7 @@ const BankAccountPageController: React.FC<BankAccountPageControllerProps> = ({
       bankAccount={viewModel.bankAccount!}
       operationsHistory={viewModel.operationsHistory!}
       backToTheClientPage={backToTheClientPage}
+      closeBankAccount={() => viewModel.closeBankAccount(id!)}
     />
   );
 };

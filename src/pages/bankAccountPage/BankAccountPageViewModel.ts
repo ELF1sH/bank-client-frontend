@@ -6,6 +6,7 @@ import { IBankAccount } from '../../domain/entities/bankAccounts/bankAccount';
 import { GetBankAccountUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountUseCase';
 import { GetOperationsHistoryUseCase } from '../../domain/useCases/bankAccounts/GetOperationsHistoryUseCase';
 import { IOperation } from '../../domain/entities/bankAccounts/operation';
+import { CloseBankAccountUseCase } from '../../domain/useCases/bankAccounts/CloseBankAccountUseCase';
 
 export class BankAccountPageViewModel {
   @observable private _isLoading: boolean = true;
@@ -17,6 +18,7 @@ export class BankAccountPageViewModel {
   public constructor(
     private _getBankAccountUseCase: GetBankAccountUseCase,
     private _getOperationsHistoryUseCase: GetOperationsHistoryUseCase,
+    private _closeBankAccountUseCase: CloseBankAccountUseCase,
   ) {
     makeObservable(this);
   }
@@ -61,6 +63,22 @@ export class BankAccountPageViewModel {
         if (operationsHistory) {
           runInAction(() => {
             this._operationsHistory = operationsHistory;
+          });
+        }
+      })
+      .finally(() => {
+        this._setIsLoading(false);
+      });
+  }
+
+  @action public closeBankAccount(id: string) {
+    this._setIsLoading(true);
+
+    this._closeBankAccountUseCase.closeBankAccount(id)
+      .then((bankAccount) => {
+        if (bankAccount) {
+          runInAction(() => {
+            this._bankAccount = bankAccount;
           });
         }
       })

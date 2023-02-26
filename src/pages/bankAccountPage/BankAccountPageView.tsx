@@ -18,16 +18,19 @@ export interface BankAccountPageViewProps {
   bankAccount: IBankAccount;
   operationsHistory: IOperation[];
   backToTheClientPage: () => void;
+  closeBankAccount: () => void;
 }
 
 const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
   bankAccount,
   operationsHistory,
   backToTheClientPage,
+  closeBankAccount,
 }) => (
   <>
     <PageHeader header={`Bank account №${bankAccount.accountNumber}`}>
       <Button icon={<BackIcon />} onClick={backToTheClientPage}>Back to the client page</Button>
+      {!bankAccount.isClosed && <Button danger type="primary" onClick={closeBankAccount}>Close the bank account</Button>}
     </PageHeader>
 
     <Paragraph>

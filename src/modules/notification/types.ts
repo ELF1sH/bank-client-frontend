@@ -11,5 +11,6 @@ export type ShowSuccessNotificationFunction = (successMessageType: SuccessNotifi
 export enum SuccessNotificationType {
   CHANGES_SUCCESSFULLY_SAVED = 'changesSuccessfullySaved',
   SUCCESSFULLY_CREATED = 'successfullyCreated',
-  SUCCESSFULLY_BLOCKED = 'successfullyBlocked'
+  SUCCESSFULLY_BLOCKED = 'successfullyBlocked',
+  SUCCESSFULLY_CLOSED = 'successfullyClosed'
 }

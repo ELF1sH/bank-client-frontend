@@ -3,6 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { IBankAccountRepository } from './interfaces/IBankAccountRepository';
 import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 import {
+  mockClosingBankAccount,
   mockGettingBankAccount,
   mockGettingBankAccountsList,
   mockGettingOperationsHistory,
@@ -14,6 +15,7 @@ mockGettingBankAccountsList();
 mockGettingBankAccount();
 mockGettingOperationsHistory();
 mockOpenningBankAccount();
+mockClosingBankAccount();
 
 class BankAccountRepository implements IBankAccountRepository {
   public getBankAccounts(id: string) {
@@ -37,6 +39,12 @@ class BankAccountRepository implements IBankAccountRepository {
   public openBankAccount() {
     return axios
       .get('/open-bank-account')
+      .then((response: AxiosResponse<IBankAccount>) => response.data);
+  }
+
+  public closeBankAccount(bankAccountId: string) {
+    return axios
+      .post(`/close-bank-account?id=${bankAccountId}`)
       .then((response: AxiosResponse<IBankAccount>) => response.data);
   }
 }

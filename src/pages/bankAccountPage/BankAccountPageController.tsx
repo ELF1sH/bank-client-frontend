@@ -39,8 +39,14 @@ const BankAccountPageController: React.FC<BankAccountPageControllerProps> = ({
       isLoading={viewModel.isLoading}
       bankAccount={viewModel.bankAccount!}
       operationsHistory={viewModel.operationsHistory!}
+      withdrawSum={viewModel.withdrawSum}
+      refillSum={viewModel.refillSum}
+      updateWithdrawSum={viewModel.updateWithdrawSum}
+      updateRefillSum={viewModel.updateRefillSum}
       backToTheClientPage={backToTheClientPage}
-      closeBankAccount={() => viewModel.closeBankAccount(id!)}
+      closeBankAccount={() => viewModel.closeBankAccount()}
+      withdraw={() => viewModel.withdraw()}
+      refill={() => viewModel.refill()}
     />
   );
 };

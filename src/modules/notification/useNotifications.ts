@@ -56,6 +56,8 @@ const getSuccessMessageText = (messageType: SuccessNotificationType) => {
       return 'Successfully blocked';
     case SuccessNotificationType.SUCCESSFULLY_CLOSED:
       return 'Bank account was successfully closed';
+    case SuccessNotificationType.SUCCESSFULLY_COMPLETED:
+      return 'Operation successfully completed';
     default:
       return 'Successfully done';
   }

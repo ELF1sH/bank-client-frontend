@@ -7,4 +7,11 @@ export interface IBankAccountRepository {
   getOperationsHistory: (id: string) => Promise<IOperation[]>;
   openBankAccount: () => Promise<IBankAccount>;
   closeBankAccount: (bankAccountId: string) => Promise<IBankAccount>;
+  withdrawMoney: (payload: IOperationPayload) => Promise<IBankAccount>;
+  refillMoney: (payload: IOperationPayload) => Promise<IBankAccount>;
+}
+
+export interface IOperationPayload {
+  bankAccountId: string;
+  sum: number;
 }

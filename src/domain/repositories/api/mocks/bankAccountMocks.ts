@@ -32,3 +32,15 @@ export const mockClosingBankAccount = () => {
     .onPost(/\/close-bank-account\?id=.*/)
     .reply(() => [200, getBankAccountClosed]);
 };
+
+export const mockWithdrawing = () => {
+  mock
+    .onPost(/\/withdraw/)
+    .reply(() => [200, getBankAccount]);
+};
+
+export const mockRefilling = () => {
+  mock
+    .onPost(/\/refill/)
+    .reply(() => [200, getBankAccount]);
+};

@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import {
-  Input, Select,
+  Input, InputNumber, Select,
 } from 'antd';
 import { SizeType } from 'antd/es/config-provider/SizeContext';
 
@@ -41,5 +41,9 @@ export const InputPasswordAnt = styled(Input.Password)<InputAntProps>`
 `;
 
 export const SelectAnt = styled(Select)<InputAntProps>`
+  ${({ size = 'middle' }) => getSelectCssProperties(size)}
+`;
+
+export const InputNumberStyled = styled(InputNumber)<InputAntProps>`
   ${({ size = 'middle' }) => getSelectCssProperties(size)}
 `;

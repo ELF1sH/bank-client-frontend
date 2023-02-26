@@ -7,6 +7,8 @@ import { GetBankAccountUseCase } from '../../domain/useCases/bankAccounts/GetBan
 import { GetOperationsHistoryUseCase } from '../../domain/useCases/bankAccounts/GetOperationsHistoryUseCase';
 import { IOperation } from '../../domain/entities/bankAccounts/operation';
 import { CloseBankAccountUseCase } from '../../domain/useCases/bankAccounts/CloseBankAccountUseCase';
+import { WithdrawMoneyUseCase } from '../../domain/useCases/bankAccounts/WithdrawMoneyUseCase';
+import { RefillMoneyUseCase } from '../../domain/useCases/bankAccounts/RefillMoneyUseCase';
 
 export class BankAccountPageViewModel {
   @observable private _isLoading: boolean = true;
@@ -15,10 +17,16 @@ export class BankAccountPageViewModel {
 
   @observable private _operationsHistory: IOperation[] = [];
 
+  @observable private _refillSum: number = 0;
+
+  @observable private _withdrawSum: number = 0;
+
   public constructor(
     private _getBankAccountUseCase: GetBankAccountUseCase,
     private _getOperationsHistoryUseCase: GetOperationsHistoryUseCase,
     private _closeBankAccountUseCase: CloseBankAccountUseCase,
+    private _withdrawMoneyUseCase: WithdrawMoneyUseCase,
+    private _refillMoneyUseCase: RefillMoneyUseCase,
   ) {
     makeObservable(this);
   }
@@ -35,9 +43,25 @@ export class BankAccountPageViewModel {
     return toJS(this._operationsHistory);
   }
 
+  @computed public get refillSum() {
+    return toJS(this._refillSum);
+  }
+
+  @computed public get withdrawSum() {
+    return toJS(this._withdrawSum);
+  }
+
   @action private _setIsLoading(val: boolean) {
     this._isLoading = val;
   }
+
+  @action public updateRefillSum = (val: number) => {
+    this._refillSum = val;
+  };
+
+  @action public updateWithdrawSum = (val: number) => {
+    this._withdrawSum = val;
+  };
 
   @action public getBankAccount(id: string) {
     this._setIsLoading(true);
@@ -71,10 +95,10 @@ export class BankAccountPageViewModel {
       });
   }
 
-  @action public closeBankAccount(id: string) {
+  @action public closeBankAccount() {
     this._setIsLoading(true);
 
-    this._closeBankAccountUseCase.closeBankAccount(id)
+    this._closeBankAccountUseCase.closeBankAccount(this.bankAccount?.id!)
       .then((bankAccount) => {
         if (bankAccount) {
           runInAction(() => {
@@ -84,6 +108,28 @@ export class BankAccountPageViewModel {
       })
       .finally(() => {
         this._setIsLoading(false);
+      });
+  }
+
+  @action public withdraw() {
+    this._withdrawMoneyUseCase.withdraw(this.bankAccount?.id!, this.withdrawSum)
+      .then((bankAccount) => {
+        if (bankAccount) {
+          runInAction(() => {
+            this._bankAccount = bankAccount;
+          });
+        }
+      });
+  }
+
+  @action public refill() {
+    this._refillMoneyUseCase.refill(this.bankAccount?.id!, this.refillSum)
+      .then((bankAccount) => {
+        if (bankAccount) {
+          runInAction(() => {
+            this._bankAccount = bankAccount;
+          });
+        }
       });
   }
 }

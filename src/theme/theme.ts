@@ -100,5 +100,12 @@ export const GlobalStyles = createGlobalStyle<ThemeProps<DefaultTheme>>`
         height: fit-content;
       }
     }
+    .ant-input-number {
+      display: flex;
+      align-items:center;
+      .ant-input-number-input-wrap {
+        flex-grow: 1;
+      }
+    }
   `};
 `;

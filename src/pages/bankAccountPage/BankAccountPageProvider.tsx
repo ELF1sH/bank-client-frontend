@@ -7,6 +7,8 @@ import { useNotifications } from '../../modules/notification/useNotifications';
 import { BankAccountPageViewModel } from './BankAccountPageViewModel';
 import { GetOperationsHistoryUseCase } from '../../domain/useCases/bankAccounts/GetOperationsHistoryUseCase';
 import { CloseBankAccountUseCase } from '../../domain/useCases/bankAccounts/CloseBankAccountUseCase';
+import { WithdrawMoneyUseCase } from '../../domain/useCases/bankAccounts/WithdrawMoneyUseCase';
+import { RefillMoneyUseCase } from '../../domain/useCases/bankAccounts/RefillMoneyUseCase';
 
 const BankAccountPageProvider: React.FC = () => {
   const { onError, onSuccess } = useNotifications();
@@ -24,10 +26,24 @@ const BankAccountPageProvider: React.FC = () => {
     onSuccess,
   );
 
+  const withdrawMoneyUseCase = new WithdrawMoneyUseCase(
+    bankAccountRepository,
+    onError,
+    onSuccess,
+  );
+
+  const refillMoneyUseCase = new RefillMoneyUseCase(
+    bankAccountRepository,
+    onError,
+    onSuccess,
+  );
+
   const viewModel = new BankAccountPageViewModel(
     getBankAccountUseCase,
     getOperationsHistoryUseCase,
     closeBankAccountUseCase,
+    withdrawMoneyUseCase,
+    refillMoneyUseCase,
   );
 
   return (

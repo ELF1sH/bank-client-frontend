@@ -1,21 +1,26 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { IBankAccountRepository } from './interfaces/IBankAccountRepository';
+import { IBankAccountRepository, IOperationPayload } from './interfaces/IBankAccountRepository';
 import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 import {
   mockClosingBankAccount,
   mockGettingBankAccount,
   mockGettingBankAccountsList,
   mockGettingOperationsHistory,
-  mockOpenningBankAccount,
+  mockOpenningBankAccount, mockRefilling, mockWithdrawing,
 } from './mocks/bankAccountMocks';
 import { IOperation } from '../../entities/bankAccounts/operation';
 
 mockGettingBankAccountsList();
 mockGettingBankAccount();
+
 mockGettingOperationsHistory();
+
 mockOpenningBankAccount();
 mockClosingBankAccount();
+
+mockWithdrawing();
+mockRefilling();
 
 class BankAccountRepository implements IBankAccountRepository {
   public getBankAccounts(id: string) {
@@ -45,6 +50,18 @@ class BankAccountRepository implements IBankAccountRepository {
   public closeBankAccount(bankAccountId: string) {
     return axios
       .post(`/close-bank-account?id=${bankAccountId}`)
+      .then((response: AxiosResponse<IBankAccount>) => response.data);
+  }
+
+  public withdrawMoney(payload: IOperationPayload) {
+    return axios
+      .post('/withdraw', payload)
+      .then((response: AxiosResponse<IBankAccount>) => response.data);
+  }
+
+  public refillMoney(payload: IOperationPayload) {
+    return axios
+      .post('/refill', payload)
       .then((response: AxiosResponse<IBankAccount>) => response.data);
   }
 }

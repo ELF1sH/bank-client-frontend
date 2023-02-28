@@ -1,10 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { IBankAccountRepository, IOperationPayload } from './interfaces/IBankAccountRepository';
-import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
+import { IBankAccount, IBankAccountDetails } from '../../entities/bankAccounts/bankAccount';
 import {
   mockClosingBankAccount,
-  mockGettingBankAccount,
+  mockGettingBankAccountDetails,
   mockGettingBankAccountsList,
   mockGettingOperationsHistory,
   mockOpenningBankAccount, mockRefilling, mockWithdrawing,
@@ -12,7 +12,7 @@ import {
 import { IOperation } from '../../entities/bankAccounts/operation';
 
 mockGettingBankAccountsList();
-mockGettingBankAccount();
+mockGettingBankAccountDetails();
 
 mockGettingOperationsHistory();
 
@@ -37,6 +37,14 @@ class BankAccountRepository implements IBankAccountRepository {
     return axios
       .get(`/bank-account?id=${id}`)
       .then((response: AxiosResponse<IBankAccount>) => response.data);
+  }
+
+  public getBankAccountDetails(payload: { id: string }) {
+    const { id } = payload;
+
+    return axios
+      .get(`/bank-account-details?id=${id}`)
+      .then((response: AxiosResponse<IBankAccountDetails>) => response.data);
   }
 
   public getOperationsHistory(payload: { id: string }) {

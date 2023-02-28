@@ -1,8 +1,10 @@
+import { ICreditTariff } from './creditTariff';
+
 export interface ICreditStatus {
-  id: string;
   totalSum: number;
-  numberOfPayments: number;
+  totalNumberOfPayments: number;
   onePaymentSum: number;
   paymentsCompleted: number;
   debt: number;
+  creditTariff: ICreditTariff;
 }

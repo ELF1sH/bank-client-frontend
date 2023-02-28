@@ -8,7 +8,7 @@ import Title from 'antd/es/typography/Title';
 import Column from 'antd/es/table/Column';
 
 import PageHeader from '../../components/ui/molecules/pageHeader/PageHeader';
-import { IBankAccount } from '../../domain/entities/bankAccounts/bankAccount';
+import { IBankAccount, IBankAccountDetails } from '../../domain/entities/bankAccounts/bankAccount';
 import { IOperation } from '../../domain/entities/bankAccounts/operation';
 import { getOperationType } from '../../utils/enumMappers';
 import { getColorByOperationType } from './helper';
@@ -17,11 +17,12 @@ import BackIcon from '../../components/ui/atoms/icons/BackIcon';
 import MinusIcon from '../../components/ui/atoms/icons/MinusIcon';
 import PlusIcon from '../../components/ui/atoms/icons/PlusIcon';
 import InputNumber from '../../components/ui/atoms/input/InputNumber';
+import BalanceCard from './components/BalanceCard';
 
 const { Text } = Typography;
 
 export interface BankAccountPageViewProps {
-  bankAccount: IBankAccount;
+  bankAccount: IBankAccountDetails;
   operationsHistory: IOperation[];
   withdrawSum: number;
   refillSum: number;
@@ -65,39 +66,57 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
     }
     {
       !bankAccount.isClosed && (
+        <BalanceCard
+          refillSum={refillSum}
+          updateRefillSum={updateRefillSum}
+          withdraw={withdraw}
+          withdrawSum={withdrawSum}
+          updateWithdrawSum={updateWithdrawSum}
+          refill={refill}
+        />
+      )
+    }
+    {
+      !bankAccount.isClosed && bankAccount.isCredit && (
         <Card style={{ width: '500px', margin: '20px 0' }}>
-          <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-            <InputNumber
-              decimalSeparator="."
-              style={{ flexGrow: 1 }}
-              precision={2}
-              value={refillSum}
-              onChange={(value) => updateRefillSum(Number(value))}
-            />
-            <Button
-              style={{ width: '140px' }}
-              icon={<PlusIcon />}
-              onClick={withdraw}
-            >
-              Refill
-            </Button>
-          </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <InputNumber
-              decimalSeparator="."
-              style={{ flexGrow: 1 }}
-              precision={2}
-              value={withdrawSum}
-              onChange={(value) => updateWithdrawSum(Number(value))}
-            />
-            <Button
-              style={{ width: '140px' }}
-              icon={<MinusIcon />}
-              onClick={refill}
-            >
-              Withdraw
-            </Button>
-          </div>
+          <Paragraph>
+            <Text strong>Полная сумма кредита:</Text>
+            &nbsp;
+            <Text keyboard>{bankAccount.creditStatus?.totalSum}</Text>
+          </Paragraph>
+          <Paragraph>
+            <Text strong>Общее количество выплат:</Text>
+            &nbsp;
+            <Text>{bankAccount.creditStatus?.totalNumberOfPayments}</Text>
+          </Paragraph>
+          <Paragraph>
+            <Text strong>Сумма одной выплаты:</Text>
+            &nbsp;
+            <Text keyboard>{bankAccount.creditStatus?.onePaymentSum}</Text>
+          </Paragraph>
+          <Paragraph>
+            <Text strong>Выплат совершено:</Text>
+            &nbsp;
+            <Text>{bankAccount.creditStatus?.paymentsCompleted}</Text>
+          </Paragraph>
+          <Paragraph>
+            <Text strong>Задолженность:</Text>
+            &nbsp;
+            <Text keyboard>{bankAccount.creditStatus?.debt}</Text>
+          </Paragraph>
+          <Paragraph>
+            <Text strong>Название тарифа:</Text>
+            &nbsp;
+            <Text>{bankAccount.creditStatus?.creditTariff.name}</Text>
+          </Paragraph>
+          <Paragraph style={{ marginBottom: 0 }}>
+            <Text strong>Процентная ставка:</Text>
+            &nbsp;
+            <Text>
+              {bankAccount.creditStatus?.creditTariff.interestRate}
+              %
+            </Text>
+          </Paragraph>
         </Card>
       )
     }

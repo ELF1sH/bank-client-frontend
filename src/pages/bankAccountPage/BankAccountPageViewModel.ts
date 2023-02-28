@@ -3,13 +3,13 @@ import {
 } from 'mobx';
 
 import { IBankAccount } from '../../domain/entities/bankAccounts/bankAccount';
-import { GetBankAccountUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountUseCase';
 import { GetOperationsHistoryUseCase } from '../../domain/useCases/bankAccounts/GetOperationsHistoryUseCase';
 import { IOperation } from '../../domain/entities/bankAccounts/operation';
 import { CloseBankAccountUseCase } from '../../domain/useCases/bankAccounts/CloseBankAccountUseCase';
 import { WithdrawMoneyUseCase } from '../../domain/useCases/bankAccounts/WithdrawMoneyUseCase';
 import { RefillMoneyUseCase } from '../../domain/useCases/bankAccounts/RefillMoneyUseCase';
 import { IOperationPayload } from '../../domain/repositories/api/interfaces/IBankAccountRepository';
+import { GetBankAccountDetailsUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountDetailsUseCase';
 
 export class BankAccountPageViewModel {
   @observable private _isLoading: boolean = true;
@@ -23,7 +23,7 @@ export class BankAccountPageViewModel {
   @observable private _withdrawSum: number = 0;
 
   public constructor(
-    private _getBankAccountUseCase: GetBankAccountUseCase,
+    private _getBankAccountDetailsUseCase: GetBankAccountDetailsUseCase,
     private _getOperationsHistoryUseCase: GetOperationsHistoryUseCase,
     private _closeBankAccountUseCase: CloseBankAccountUseCase,
     private _withdrawMoneyUseCase: WithdrawMoneyUseCase,
@@ -67,16 +67,17 @@ export class BankAccountPageViewModel {
   @action public getBankAccount(id: string) {
     this._setIsLoading(true);
 
-    this._getBankAccountUseCase.fetch({ id })
+    this._getBankAccountDetailsUseCase.fetch({ id })
       .then((bankAccount) => {
+        console.log(bankAccount);
+
         if (bankAccount) {
           runInAction(() => {
             this._bankAccount = bankAccount;
           });
+
+          this._setIsLoading(false);
         }
-      })
-      .finally(() => {
-        this._setIsLoading(false);
       });
   }
 

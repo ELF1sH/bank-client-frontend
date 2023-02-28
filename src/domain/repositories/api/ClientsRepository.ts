@@ -1,9 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { IClientsRepository, IGetClientsResponse } from './interfaces/IClientsRepository';
-import { IPaginationRequest } from '../../entities/common/pagination';
+import { IClientsRepository } from './interfaces/IClientsRepository';
 import { mockGettingClientsList, mockCreatingClient, mockGettingClient } from './mocks/clientsMocks';
-import { IClient, ICreateClientPayload } from '../../entities/users/client';
+import { IClient } from '../../entities/users/client';
 
 mockGettingClientsList();
 mockGettingClient();

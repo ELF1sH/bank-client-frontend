@@ -2,6 +2,7 @@ import { mock } from './common';
 import { getBankAccounts } from './data/getBankAccounts';
 import { getBankAccount, getBankAccountClosed } from './data/getBankAccount';
 import { getOperationsHistory } from './data/getOperationsHistory';
+import { getBankAccountDetails } from './data/getBankAccountDetails';
 
 export const mockGettingBankAccountsList = () => {
   mock
@@ -13,6 +14,12 @@ export const mockGettingBankAccount = () => {
   mock
     .onGet(/\/bank-account\?id=*/)
     .reply(() => [200, getBankAccount]);
+};
+
+export const mockGettingBankAccountDetails = () => {
+  mock
+    .onGet(/\/bank-account-details\?id=*/)
+    .reply(() => [200, getBankAccountDetails]);
 };
 
 export const mockGettingOperationsHistory = () => {

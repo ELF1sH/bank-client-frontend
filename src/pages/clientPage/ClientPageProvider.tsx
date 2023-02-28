@@ -14,12 +14,18 @@ const ClientPageProvider: React.FC = () => {
   const { onError, onSuccess } = useNotifications();
   const navigate = useNavigate();
 
-  const getClientUseCase = new GetClientUseCase(clientsRepository, onError);
+  const getClientUseCase = new GetClientUseCase(
+    clientsRepository.getClient,
+    onError,
+  );
 
-  const getBankAccountsUseCase = new GetBankAccountsUseCase(bankAccountRepository, onError);
+  const getBankAccountsUseCase = new GetBankAccountsUseCase(
+    bankAccountRepository.getBankAccounts,
+    onError,
+  );
 
   const openBankAccountUseCase = new OpenBankAccountUseCase(
-    bankAccountRepository,
+    bankAccountRepository.openBankAccount,
     onError,
     onSuccess,
   );

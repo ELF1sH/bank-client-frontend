@@ -8,7 +8,9 @@ import { mockUserBlocking } from './mocks/usersMock';
 mockUserBlocking();
 
 class UsersRepository implements IUsersRepository {
-  public blockUser(id: string) {
+  public blockUser(payload: { id: string }) {
+    const { id } = payload;
+
     return axios
       .post(`/block-user/${id}`)
       .then((response: AxiosResponse<IClient | IEmployee>) => response.data);

@@ -16,7 +16,9 @@ class ClientsRepository implements IClientsRepository {
       .then((response: AxiosResponse<IGetClientsResponse>) => response.data);
   }
 
-  getClient(id: string) {
+  getClient(payload: { id: string }) {
+    const { id } = payload;
+
     return axios
       .get(`/client?id=${id}`)
       .then((response: AxiosResponse<IClient>) => response.data);

@@ -13,27 +13,30 @@ import { RefillMoneyUseCase } from '../../domain/useCases/bankAccounts/RefillMon
 const BankAccountPageProvider: React.FC = () => {
   const { onError, onSuccess } = useNotifications();
 
-  const getBankAccountUseCase = new GetBankAccountUseCase(bankAccountRepository, onError);
+  const getBankAccountUseCase = new GetBankAccountUseCase(
+    bankAccountRepository.getBankAccount,
+    onError,
+  );
 
   const getOperationsHistoryUseCase = new GetOperationsHistoryUseCase(
-    bankAccountRepository,
+    bankAccountRepository.getOperationsHistory,
     onError,
   );
 
   const closeBankAccountUseCase = new CloseBankAccountUseCase(
-    bankAccountRepository,
+    bankAccountRepository.closeBankAccount,
     onError,
     onSuccess,
   );
 
   const withdrawMoneyUseCase = new WithdrawMoneyUseCase(
-    bankAccountRepository,
+    bankAccountRepository.withdrawMoney,
     onError,
     onSuccess,
   );
 
   const refillMoneyUseCase = new RefillMoneyUseCase(
-    bankAccountRepository,
+    bankAccountRepository.refillMoney,
     onError,
     onSuccess,
   );

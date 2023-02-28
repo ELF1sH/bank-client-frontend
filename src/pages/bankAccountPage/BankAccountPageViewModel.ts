@@ -9,6 +9,7 @@ import { IOperation } from '../../domain/entities/bankAccounts/operation';
 import { CloseBankAccountUseCase } from '../../domain/useCases/bankAccounts/CloseBankAccountUseCase';
 import { WithdrawMoneyUseCase } from '../../domain/useCases/bankAccounts/WithdrawMoneyUseCase';
 import { RefillMoneyUseCase } from '../../domain/useCases/bankAccounts/RefillMoneyUseCase';
+import { IOperationPayload } from '../../domain/repositories/api/interfaces/IBankAccountRepository';
 
 export class BankAccountPageViewModel {
   @observable private _isLoading: boolean = true;
@@ -66,7 +67,7 @@ export class BankAccountPageViewModel {
   @action public getBankAccount(id: string) {
     this._setIsLoading(true);
 
-    this._getBankAccountUseCase.getBankAccount(id)
+    this._getBankAccountUseCase.fetch({ id })
       .then((bankAccount) => {
         if (bankAccount) {
           runInAction(() => {
@@ -82,7 +83,7 @@ export class BankAccountPageViewModel {
   @action public getOperationsHistory(id: string) {
     this._setIsLoading(true);
 
-    this._getOperationsHistoryUseCase.getOperationsHistory(id)
+    this._getOperationsHistoryUseCase.fetch({ id })
       .then((operationsHistory) => {
         if (operationsHistory) {
           runInAction(() => {
@@ -98,7 +99,7 @@ export class BankAccountPageViewModel {
   @action public closeBankAccount() {
     this._setIsLoading(true);
 
-    this._closeBankAccountUseCase.closeBankAccount(this.bankAccount?.id!)
+    this._closeBankAccountUseCase.fetch({ id: this.bankAccount?.id! })
       .then((bankAccount) => {
         if (bankAccount) {
           runInAction(() => {
@@ -112,7 +113,12 @@ export class BankAccountPageViewModel {
   }
 
   @action public withdraw() {
-    this._withdrawMoneyUseCase.withdraw(this.bankAccount?.id!, this.withdrawSum)
+    const payload: IOperationPayload = {
+      bankAccountId: this.bankAccount?.id!,
+      sum: this.withdrawSum,
+    };
+
+    this._withdrawMoneyUseCase.fetch(payload)
       .then((bankAccount) => {
         if (bankAccount) {
           runInAction(() => {
@@ -123,7 +129,12 @@ export class BankAccountPageViewModel {
   }
 
   @action public refill() {
-    this._refillMoneyUseCase.refill(this.bankAccount?.id!, this.refillSum)
+    const payload: IOperationPayload = {
+      bankAccountId: this.bankAccount?.id!,
+      sum: this.withdrawSum,
+    };
+
+    this._refillMoneyUseCase.fetch(payload)
       .then((bankAccount) => {
         if (bankAccount) {
           runInAction(() => {

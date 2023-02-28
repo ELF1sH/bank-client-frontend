@@ -44,7 +44,7 @@ export class ClientPageViewModel {
   @action public getClient(id: string) {
     this._setIsLoading(true);
 
-    this._getClientUseCase.getClient(id)
+    this._getClientUseCase.fetch({ id })
       .then((client) => {
         if (client) {
           runInAction(() => {
@@ -60,7 +60,7 @@ export class ClientPageViewModel {
   @action public getBankAccounts(id: string) {
     this._setIsLoading(true);
 
-    this._getBankAccountsUseCase.getBankAccounts(id)
+    this._getBankAccountsUseCase.fetch({ id })
       .then((bankAccounts) => {
         if (bankAccounts) {
           runInAction(() => {
@@ -76,7 +76,7 @@ export class ClientPageViewModel {
   @action public openBankAccount() {
     this._setIsLoading(true);
 
-    this._openBankAccountUseCase.openBankAccount()
+    this._openBankAccountUseCase.fetch()
       .then((bankAccount) => {
         if (bankAccount) {
           this._navigate(`/bank-accounts/${bankAccount.id}`);

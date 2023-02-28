@@ -5,5 +5,5 @@ import { mockUserBlocking } from '../mocks/usersMock';
 mockUserBlocking();
 
 export interface IUsersRepository {
-  blockUser: (id: string) => Promise<IClient | IEmployee>
+  blockUser: (payload: { id: string }) => Promise<IClient | IEmployee>
 }

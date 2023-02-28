@@ -9,7 +9,7 @@ import { creditRepository } from '../../../domain/repositories/api/CreditReposit
 const TariffsGridProvider: React.FC = () => {
   const { onError } = useNotifications();
 
-  const getTariffsUseCase = new GetCreditTariffsUseCase(creditRepository, onError);
+  const getTariffsUseCase = new GetCreditTariffsUseCase(creditRepository.getCreditTariffs, onError);
 
   const viewModel = new TariffsGridViewModel(getTariffsUseCase);
 

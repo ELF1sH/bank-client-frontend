@@ -23,19 +23,25 @@ mockWithdrawing();
 mockRefilling();
 
 class BankAccountRepository implements IBankAccountRepository {
-  public getBankAccounts(id: string) {
+  public getBankAccounts(payload: { id: string }) {
+    const { id } = payload;
+
     return axios
       .get(`/bank-accounts?id=${id}`)
       .then((response: AxiosResponse<IBankAccount[]>) => response.data);
   }
 
-  public getBankAccount(id: string) {
+  public getBankAccount(payload: { id: string }) {
+    const { id } = payload;
+
     return axios
       .get(`/bank-account?id=${id}`)
       .then((response: AxiosResponse<IBankAccount>) => response.data);
   }
 
-  public getOperationsHistory(id: string) {
+  public getOperationsHistory(payload: { id: string }) {
+    const { id } = payload;
+
     return axios
       .get(`/operations-history?id=${id}`)
       .then((response: AxiosResponse<IOperation[]>) => response.data);
@@ -47,9 +53,11 @@ class BankAccountRepository implements IBankAccountRepository {
       .then((response: AxiosResponse<IBankAccount>) => response.data);
   }
 
-  public closeBankAccount(bankAccountId: string) {
+  public closeBankAccount(payload: { id: string }) {
+    const { id } = payload;
+
     return axios
-      .post(`/close-bank-account?id=${bankAccountId}`)
+      .post(`/close-bank-account?id=${id}`)
       .then((response: AxiosResponse<IBankAccount>) => response.data);
   }
 

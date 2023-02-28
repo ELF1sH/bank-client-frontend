@@ -29,7 +29,7 @@ export class TariffsGridViewModel {
       this._isLoading = true;
     });
 
-    const tariffs = await this._getCreditTariffsUseCase.getCreditTariffs();
+    const tariffs = await this._getCreditTariffsUseCase.fetch();
 
     this.updateTariffs(tariffs ?? []);
 

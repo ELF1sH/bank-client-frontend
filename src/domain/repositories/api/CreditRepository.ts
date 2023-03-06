@@ -1,11 +1,12 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { ICreditRepository } from './interfaces/ICreditRepository';
+import { ICreditRepository, ITakeLoanPayload, ITakeLoanResponse } from './interfaces/ICreditRepository';
 import { ICreateCreditTariffPayload, ICreditTariff } from '../../entities/credit/creditTariff';
-import { mockCreatingCreditTariff, mockGettingCreditTariffs } from './mocks/creditMocks';
+import { mockCreatingCreditTariff, mockGettingCreditTariffs, mockTakingLoan } from './mocks/creditMocks';
 
 mockGettingCreditTariffs();
 mockCreatingCreditTariff();
+mockTakingLoan();
 
 class CreditRepository implements ICreditRepository {
   public getCreditTariffs(): Promise<ICreditTariff[]> {
@@ -17,6 +18,12 @@ class CreditRepository implements ICreditRepository {
   public createCreditTariff(payload: ICreateCreditTariffPayload): Promise<void> {
     return axios
       .post('/create-credit-tariff', payload);
+  }
+
+  public takeLoan(payload: ITakeLoanPayload): Promise<ITakeLoanResponse> {
+    return axios
+      .post('/take-loan', payload)
+      .then((response: AxiosResponse<ITakeLoanResponse>) => response.data);
   }
 }
 

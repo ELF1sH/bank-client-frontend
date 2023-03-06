@@ -16,6 +16,7 @@ export const getBankAccountDetails: IBankAccountDetails = {
       id: '1',
       name: 'credit-tariff-name',
       interestRate: 10,
+      sum: 124435,
     },
   },
 };

@@ -12,3 +12,9 @@ export const mockCreatingCreditTariff = () => {
     .onPost('/create-credit-tariff')
     .reply(() => [200]);
 };
+
+export const mockTakingLoan = () => {
+  mock
+    .onPost('/take-loan')
+    .reply(() => [200, { bankAccountID: '34' }]);
+};

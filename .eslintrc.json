@@ -35,6 +35,7 @@
     "no-template-curly-in-string": "off",
     "no-useless-constructor": "off",
     "no-empty-function": "off",
+    "linebreak-style": "off",
 
     "react/function-component-definition": "off",
     "react/jsx-filename-extension": "off",

@@ -1,10 +1,11 @@
 import { ICreditTariff } from './creditTariff';
 
-export interface ICreditStatus {
-  totalSum: number;
-  totalNumberOfPayments: number;
-  onePaymentSum: number;
-  paymentsCompleted: number;
+export interface ICreditAccount {
+  id: string;
+  balance: number;
   debt: number;
-  creditTariff: ICreditTariff;
+  accountNumber: number;
+  tariffId: string;
+  isClosed: boolean;
+  percent: number;
 }

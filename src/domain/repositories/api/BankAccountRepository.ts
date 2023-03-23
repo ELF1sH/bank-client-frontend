@@ -1,33 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { IBankAccountRepository, IOperationPayload } from './interfaces/IBankAccountRepository';
-import { IBankAccount, IBankAccountDetails } from '../../entities/bankAccounts/bankAccount';
-import {
-  mockClosingBankAccount,
-  mockGettingBankAccountDetails,
-  mockGettingBankAccountsList,
-  mockGettingOperationsHistory,
-  mockOpenningBankAccount, mockRefilling, mockWithdrawing,
-} from './mocks/bankAccountMocks';
+import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 import { IOperation } from '../../entities/bankAccounts/operation';
-
-mockGettingBankAccountsList();
-mockGettingBankAccountDetails();
-
-mockGettingOperationsHistory();
-
-mockOpenningBankAccount();
-mockClosingBankAccount();
-
-mockWithdrawing();
-mockRefilling();
 
 class BankAccountRepository implements IBankAccountRepository {
   public getBankAccounts(payload: { id: string }) {
     const { id } = payload;
 
     return axios
-      .get(`/bank-accounts?id=${id}`)
+      .get(`/bank-accounts?ownerId=${id}`)
       .then((response: AxiosResponse<IBankAccount[]>) => response.data);
   }
 
@@ -35,16 +17,8 @@ class BankAccountRepository implements IBankAccountRepository {
     const { id } = payload;
 
     return axios
-      .get(`/bank-account?id=${id}`)
+      .get(`/details-bank-account?id=${id}`)
       .then((response: AxiosResponse<IBankAccount>) => response.data);
-  }
-
-  public getBankAccountDetails(payload: { id: string }) {
-    const { id } = payload;
-
-    return axios
-      .get(`/bank-account-details?id=${id}`)
-      .then((response: AxiosResponse<IBankAccountDetails>) => response.data);
   }
 
   public getOperationsHistory(payload: { id: string }) {
@@ -61,24 +35,28 @@ class BankAccountRepository implements IBankAccountRepository {
       .then((response: AxiosResponse<IBankAccount>) => response.data);
   }
 
-  public closeBankAccount(payload: { id: string }) {
+  public async closeBankAccount(payload: { id: string }) {
     const { id } = payload;
 
-    return axios
+    await axios
       .post(`/close-bank-account?id=${id}`)
-      .then((response: AxiosResponse<IBankAccount>) => response.data);
+      .then((response: AxiosResponse<void>) => response.data);
   }
 
-  public withdrawMoney(payload: IOperationPayload) {
-    return axios
-      .post('/withdraw', payload)
-      .then((response: AxiosResponse<IBankAccount>) => response.data);
+  public async withdrawMoney(payload: IOperationPayload) {
+    const { bankAccountId, sum } = payload;
+
+    await axios
+      .post(`/withdraw-bank-account?id=${bankAccountId}&money=${sum}`, payload)
+      .then((response: AxiosResponse<void>) => response.data);
   }
 
-  public refillMoney(payload: IOperationPayload) {
-    return axios
-      .post('/refill', payload)
-      .then((response: AxiosResponse<IBankAccount>) => response.data);
+  public async refillMoney(payload: IOperationPayload) {
+    const { bankAccountId, sum } = payload;
+
+    await axios
+      .post(`/fill-bank-account?id=${bankAccountId}&money=${sum}`, payload)
+      .then((response: AxiosResponse<void>) => response.data);
   }
 }
 

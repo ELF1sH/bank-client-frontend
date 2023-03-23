@@ -37,13 +37,13 @@ const TakeLoanPageView: React.FC<TakeLoanPageViewProps> = ({
             <Paragraph>
               <Text strong>Interest rate:</Text>
               &nbsp;
-              {tariff.interestRate}
+              {tariff.percent}
               %
             </Paragraph>
             <Paragraph>
               <Text strong>Sum:</Text>
               &nbsp;
-              {tariff.sum}
+              {tariff.balance}
             </Paragraph>
           </Card>
         ))

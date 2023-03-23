@@ -8,22 +8,18 @@ import Title from 'antd/es/typography/Title';
 import Column from 'antd/es/table/Column';
 
 import PageHeader from '../../components/ui/molecules/pageHeader/PageHeader';
-import { IBankAccount, IBankAccountDetails } from '../../domain/entities/bankAccounts/bankAccount';
 import { IOperation } from '../../domain/entities/bankAccounts/operation';
 import { getOperationType } from '../../utils/enumMappers';
 import { getColorByOperationType } from './helper';
 import Button from '../../components/ui/atoms/button/Button';
 import BackIcon from '../../components/ui/atoms/icons/BackIcon';
-import MinusIcon from '../../components/ui/atoms/icons/MinusIcon';
-import PlusIcon from '../../components/ui/atoms/icons/PlusIcon';
-import InputNumber from '../../components/ui/atoms/input/InputNumber';
 import BalanceCard from './components/BalanceCard';
-import CreditCard from './components/CreditCard';
+import { IBankAccount } from '../../domain/entities/bankAccounts/bankAccount';
 
 const { Text } = Typography;
 
 export interface BankAccountPageViewProps {
-  bankAccount: IBankAccountDetails;
+  bankAccount: IBankAccount;
   operationsHistory: IOperation[];
   withdrawSum: number;
   refillSum: number;
@@ -48,7 +44,7 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
   refill,
 }) => (
   <>
-    <PageHeader header={`Bank account №${bankAccount.accountNumber}`}>
+    <PageHeader header={`Bank account №${bankAccount.id}`}>
       <Button icon={<BackIcon />} onClick={backToTheClientPage}>Back to the client page</Button>
       {!bankAccount.isClosed && <Button danger type="primary" onClick={closeBankAccount}>Close the bank account</Button>}
     </PageHeader>
@@ -63,9 +59,6 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
       bankAccount.isClosed && <Tag color="red">Closed</Tag>
     }
     {
-      bankAccount.isCredit && <Tag color="green">Credit Bank Account</Tag>
-    }
-    {
       !bankAccount.isClosed && (
         <BalanceCard
           refillSum={refillSum}
@@ -75,11 +68,6 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
           updateWithdrawSum={updateWithdrawSum}
           refill={refill}
         />
-      )
-    }
-    {
-      !bankAccount.isClosed && bankAccount.isCredit && (
-        <CreditCard bankAccount={bankAccount} />
       )
     }
 
@@ -92,14 +80,6 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
     >
       <Column title="Id" dataIndex="id" key="id" />
       <Column title="Money" dataIndex="money" key="money" />
-      <Column
-        title="Tags"
-        dataIndex="tags"
-        key="tags"
-        render={(_, { type }: IOperation) => (
-          <Tag color={getColorByOperationType(type)}>{getOperationType(type)}</Tag>
-        )}
-      />
     </Table>
   </>
 );

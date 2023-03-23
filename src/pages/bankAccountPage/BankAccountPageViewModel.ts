@@ -9,7 +9,7 @@ import { CloseBankAccountUseCase } from '../../domain/useCases/bankAccounts/Clos
 import { WithdrawMoneyUseCase } from '../../domain/useCases/bankAccounts/WithdrawMoneyUseCase';
 import { RefillMoneyUseCase } from '../../domain/useCases/bankAccounts/RefillMoneyUseCase';
 import { IOperationPayload } from '../../domain/repositories/api/interfaces/IBankAccountRepository';
-import { GetBankAccountDetailsUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountDetailsUseCase';
+import { GetBankAccountUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountUseCase';
 
 export class BankAccountPageViewModel {
   @observable private _isLoading: boolean = true;
@@ -23,7 +23,7 @@ export class BankAccountPageViewModel {
   @observable private _withdrawSum: number = 0;
 
   public constructor(
-    private _getBankAccountDetailsUseCase: GetBankAccountDetailsUseCase,
+    private _getBankAccountDetailsUseCase: GetBankAccountUseCase,
     private _getOperationsHistoryUseCase: GetOperationsHistoryUseCase,
     private _closeBankAccountUseCase: CloseBankAccountUseCase,
     private _withdrawMoneyUseCase: WithdrawMoneyUseCase,
@@ -101,12 +101,8 @@ export class BankAccountPageViewModel {
     this._setIsLoading(true);
 
     this._closeBankAccountUseCase.fetch({ id: this.bankAccount?.id! })
-      .then((bankAccount) => {
-        if (bankAccount) {
-          runInAction(() => {
-            this._bankAccount = bankAccount;
-          });
-        }
+      .then(() => {
+        this.getBankAccount(this.bankAccount?.id!);
       })
       .finally(() => {
         this._setIsLoading(false);
@@ -120,12 +116,8 @@ export class BankAccountPageViewModel {
     };
 
     this._withdrawMoneyUseCase.fetch(payload)
-      .then((bankAccount) => {
-        if (bankAccount) {
-          runInAction(() => {
-            this._bankAccount = bankAccount;
-          });
-        }
+      .then(() => {
+        this.getBankAccount(this.bankAccount?.id!);
       });
   }
 
@@ -136,12 +128,8 @@ export class BankAccountPageViewModel {
     };
 
     this._refillMoneyUseCase.fetch(payload)
-      .then((bankAccount) => {
-        if (bankAccount) {
-          runInAction(() => {
-            this._bankAccount = bankAccount;
-          });
-        }
+      .then(() => {
+        this.getBankAccount(this.bankAccount?.id!);
       });
   }
 }

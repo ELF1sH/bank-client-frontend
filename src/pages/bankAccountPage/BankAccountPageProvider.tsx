@@ -1,7 +1,6 @@
 import React from 'react';
 
 import BankAccountPageController from './BankAccountPageController';
-import { GetBankAccountUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountUseCase';
 import { bankAccountRepository } from '../../domain/repositories/api/BankAccountRepository';
 import { useNotifications } from '../../modules/notification/useNotifications';
 import { BankAccountPageViewModel } from './BankAccountPageViewModel';
@@ -9,13 +8,13 @@ import { GetOperationsHistoryUseCase } from '../../domain/useCases/bankAccounts/
 import { CloseBankAccountUseCase } from '../../domain/useCases/bankAccounts/CloseBankAccountUseCase';
 import { WithdrawMoneyUseCase } from '../../domain/useCases/bankAccounts/WithdrawMoneyUseCase';
 import { RefillMoneyUseCase } from '../../domain/useCases/bankAccounts/RefillMoneyUseCase';
-import { GetBankAccountDetailsUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountDetailsUseCase';
+import { GetBankAccountUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountUseCase';
 
 const BankAccountPageProvider: React.FC = () => {
   const { onError, onSuccess } = useNotifications();
 
-  const getBankAccountDetailsUseCase = new GetBankAccountDetailsUseCase(
-    bankAccountRepository.getBankAccountDetails,
+  const getBankAccountDetailsUseCase = new GetBankAccountUseCase(
+    bankAccountRepository.getBankAccount,
     onError,
   );
 

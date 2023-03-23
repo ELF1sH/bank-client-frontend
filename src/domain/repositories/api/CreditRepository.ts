@@ -2,11 +2,6 @@ import axios, { AxiosResponse } from 'axios';
 
 import { ICreditRepository, ITakeLoanPayload, ITakeLoanResponse } from './interfaces/ICreditRepository';
 import { ICreateCreditTariffPayload, ICreditTariff } from '../../entities/credit/creditTariff';
-import { mockCreatingCreditTariff, mockGettingCreditTariffs, mockTakingLoan } from './mocks/creditMocks';
-
-mockGettingCreditTariffs();
-mockCreatingCreditTariff();
-mockTakingLoan();
 
 class CreditRepository implements ICreditRepository {
   public getCreditTariffs(): Promise<ICreditTariff[]> {

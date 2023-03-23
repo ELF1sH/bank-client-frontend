@@ -7,9 +7,9 @@ import {
 import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 import { APIUseCase } from '../common/APIUseCase';
 
-export class CloseBankAccountUseCase extends APIUseCase<{id: string}, IBankAccount> {
+export class CloseBankAccountUseCase extends APIUseCase<{id: string}, void> {
   public constructor(
-    requestCallback: (payload: {id: string}) => Promise<IBankAccount>,
+    requestCallback: (payload: {id: string}) => Promise<void>,
     onError: ShowErrorFunction,
     onSuccess: ShowSuccessNotificationFunction,
   ) {

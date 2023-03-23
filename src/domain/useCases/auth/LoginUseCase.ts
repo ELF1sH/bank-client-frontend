@@ -16,13 +16,13 @@ export class LoginUseCase {
 
   public async login(loginPayload: ILoginPayload): Promise<ILoginResponse | void> {
     try {
-      const res = await this._authRepository?.login(loginPayload);
-
-      const accessToken = res?.accessToken;
-
-      if (accessToken) {
-        this._tokenRepository?.setAccessToken(accessToken);
-      }
+      // const res = await this._authRepository?.login(loginPayload);
+      //
+      // const accessToken = res?.accessToken;
+      //
+      // if (accessToken) {
+      //   this._tokenRepository?.setAccessToken(accessToken);
+      // }
 
       this._navigate('/profile');
     } catch (e) {

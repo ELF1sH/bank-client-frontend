@@ -1,7 +1,8 @@
 export interface IOperation {
   id: string;
-  money: number;
-  type: OperationType;
+  amount: number;
+  status: string;
+  date: string;
 }
 
 export enum OperationType {

@@ -33,7 +33,7 @@ const ClientPageController: React.FC<ClientPageControllerProps> = ({
   return (
     <ClientPageViewWithLoader
       isLoading={viewModel.isLoading}
-      client={viewModel.client!}
+      client={viewModel.client}
       bankAccounts={viewModel.bankAccounts}
       onClickBankAccountRow={onClickBankAccountRow}
       openBankAccount={() => viewModel.openBankAccount()}

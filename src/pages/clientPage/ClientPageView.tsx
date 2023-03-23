@@ -13,7 +13,7 @@ import PlusIcon from '../../components/ui/atoms/icons/PlusIcon';
 const { Text } = Typography;
 
 export interface ClientPageViewProps {
-  client: IClient;
+  client?: IClient;
   bankAccounts: IBankAccount[];
   onClickBankAccountRow: (id: string) => void;
   openBankAccount: () => void;
@@ -24,68 +24,68 @@ const ClientPageView: React.FC<ClientPageViewProps> = ({
   bankAccounts,
   onClickBankAccountRow,
   openBankAccount,
-}) => (
-  <>
-    <PageHeader header={`${client.lastName} ${client.firstName} ${client.middleName}`}>
-      <Button icon={<PlusIcon />} type="primary" onClick={openBankAccount}>Open new bank account</Button>
-    </PageHeader>
+}) => {
+  if (!client) {
+    return <h2>ERROR</h2>;
+  }
 
-    {
-      client.isBlocked && <Tag style={{ marginBottom: '20px' }} color="red">BLOCKED</Tag>
-    }
+  return (
+    <>
+      <PageHeader header={`${client.lastName} ${client.firstName}`}>
+        <Button icon={<PlusIcon />} type="primary" onClick={openBankAccount}>Open new bank account</Button>
+      </PageHeader>
 
-    <Paragraph>
-      <Text strong>First name:</Text>
-      &nbsp;
-      {client.firstName}
-    </Paragraph>
-    <Paragraph>
-      <Text strong>last name:</Text>
-      &nbsp;
-      {client.lastName}
-    </Paragraph>
-    <Paragraph>
-      <Text strong>Middle name:</Text>
-      &nbsp;
-      {client.middleName}
-    </Paragraph>
-    <Paragraph>
-      <Text strong>Number of bank accounts:</Text>
-      &nbsp;
-      {client.numberOfBankAccounts}
-    </Paragraph>
-    <Paragraph>
-      <Text strong>Number of credits taken:</Text>
-      &nbsp;
-      {client.numberOfCredits}
-    </Paragraph>
+      {
+        client.isBlocked && <Tag style={{ marginBottom: '20px' }} color="red">BLOCKED</Tag>
+      }
 
-    <Title level={3}>Bank accounts</Title>
+      <Paragraph>
+        <Text strong>First name:</Text>
+        &nbsp;
+        {client.firstName}
+      </Paragraph>
+      <Paragraph>
+        <Text strong>last name:</Text>
+        &nbsp;
+        {client.lastName}
+      </Paragraph>
+      <Paragraph>
+        <Text strong>Number of bank accounts:</Text>
+        &nbsp;
+        {client.numberOfBankAccounts}
+      </Paragraph>
+      <Paragraph>
+        <Text strong>Number of credits taken:</Text>
+        &nbsp;
+        {client.numberOfCredits}
+      </Paragraph>
 
-    <Table
-      dataSource={bankAccounts}
-      pagination={false}
-      bordered
-      onRow={(record: IBankAccount) => ({
-        onClick: () => onClickBankAccountRow(record.id),
-      })}
-      rowKey={(record) => record.id}
-    >
-      <Column title="Account number" dataIndex="accountNumber" key="accountNumber" />
-      <Column title="Balance" dataIndex="balance" key="balance" />
-      <Column
-        title="Tags"
-        dataIndex="tags"
-        key="tags"
-        render={(_, record: IBankAccount) => (
-          <>
-            {record.isClosed && <Tag color="red">Closed</Tag>}
-            {record.isCredit && <Tag color="green">Credit Bank Account</Tag>}
-          </>
-        )}
-      />
-    </Table>
-  </>
-);
+      <Title level={3}>Bank accounts</Title>
+
+      <Table
+        dataSource={bankAccounts}
+        pagination={false}
+        bordered
+        onRow={(record: IBankAccount) => ({
+          onClick: () => onClickBankAccountRow(record.id),
+        })}
+        rowKey={(record) => record.id}
+      >
+        <Column title="Account number" dataIndex="accountNumber" key="accountNumber" />
+        <Column title="Balance" dataIndex="balance" key="balance" />
+        <Column
+          title="Tags"
+          dataIndex="tags"
+          key="tags"
+          render={(_, record: IBankAccount) => (
+            <>
+              {record.isClosed && <Tag color="red">Closed</Tag>}
+            </>
+          )}
+        />
+      </Table>
+    </>
+  );
+};
 
 export default ClientPageView;

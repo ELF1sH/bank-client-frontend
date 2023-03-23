@@ -8,9 +8,9 @@ import { IOperationPayload } from '../../repositories/api/interfaces/IBankAccoun
 import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 import { APIUseCase } from '../common/APIUseCase';
 
-export class RefillMoneyUseCase extends APIUseCase<IOperationPayload, IBankAccount> {
+export class RefillMoneyUseCase extends APIUseCase<IOperationPayload, void> {
   public constructor(
-    requestCallback: (payload: IOperationPayload) => Promise<IBankAccount>,
+    requestCallback: (payload: IOperationPayload) => Promise<void>,
     onError: ShowErrorFunction,
     onSuccess: ShowSuccessNotificationFunction,
   ) {

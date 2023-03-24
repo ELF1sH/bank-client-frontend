@@ -4,8 +4,3 @@ export interface ICreditTariff {
   percent: number;
   balance: number;
 }
-
-export interface ICreateCreditTariffPayload {
-  name: string;
-  percent: number;
-}

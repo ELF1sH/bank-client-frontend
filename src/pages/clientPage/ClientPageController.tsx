@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
 import ClientPageView, { ClientPageViewProps } from './ClientPageView';
@@ -15,28 +15,37 @@ interface ClientPageControllerProps {
 const ClientPageController: React.FC<ClientPageControllerProps> = ({
   viewModel,
 }) => {
-  const { id } = useParams();
+  // TODO: NEED TO PARSE IT FROM A JWT TOKEN
+  const id = '2';
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      await viewModel.getClient(id ?? '');
-      await viewModel.getBankAccounts(id ?? '');
-    })();
+    viewModel.init(id);
   }, [viewModel, id]);
 
   const onClickBankAccountRow = (id: string) => {
     navigate(`/bank-accounts/${id}`);
   };
 
+  const onClickCreditAccountRow = (id: string) => {
+    navigate(`/credit-accounts/${id}`);
+  };
+
+  const createBankAccount = () => {
+    // TODO: ID IS HARDCODED
+    viewModel.createBankAccount(id);
+  };
+
   return (
     <ClientPageViewWithLoader
       isLoading={viewModel.isLoading}
-      client={viewModel.client}
+      client={viewModel.client!}
       bankAccounts={viewModel.bankAccounts}
+      creditAccounts={viewModel.creditAccounts}
       onClickBankAccountRow={onClickBankAccountRow}
-      openBankAccount={() => viewModel.openBankAccount()}
+      onClickCreditAccountRow={onClickCreditAccountRow}
+      createBankAccount={createBankAccount}
     />
   );
 };

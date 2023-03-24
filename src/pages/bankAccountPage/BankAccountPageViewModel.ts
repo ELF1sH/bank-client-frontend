@@ -32,6 +32,17 @@ export class BankAccountPageViewModel {
     makeObservable(this);
   }
 
+  @action public init(id: string) {
+    this._setIsLoading(true);
+
+    Promise.all([
+      this.getBankAccount(id),
+      this.getOperationsHistory(id),
+    ]).then(() => {
+      this._setIsLoading(false);
+    });
+  }
+
   @computed public get isLoading() {
     return toJS(this._isLoading);
   }
@@ -65,35 +76,24 @@ export class BankAccountPageViewModel {
   };
 
   @action public getBankAccount(id: string) {
-    this._setIsLoading(true);
-
-    this._getBankAccountDetailsUseCase.fetch({ id })
+    return this._getBankAccountDetailsUseCase.fetch({ id })
       .then((bankAccount) => {
-        console.log(bankAccount);
-
         if (bankAccount) {
           runInAction(() => {
             this._bankAccount = bankAccount;
           });
-
-          this._setIsLoading(false);
         }
       });
   }
 
   @action public getOperationsHistory(id: string) {
-    this._setIsLoading(true);
-
-    this._getOperationsHistoryUseCase.fetch({ id })
+    return this._getOperationsHistoryUseCase.fetch({ id })
       .then((operationsHistory) => {
         if (operationsHistory) {
           runInAction(() => {
             this._operationsHistory = operationsHistory;
           });
         }
-      })
-      .finally(() => {
-        this._setIsLoading(false);
       });
   }
 
@@ -111,25 +111,27 @@ export class BankAccountPageViewModel {
 
   @action public withdraw() {
     const payload: IOperationPayload = {
-      bankAccountId: this.bankAccount?.id!,
-      sum: this.withdrawSum,
+      id: this.bankAccount?.id!,
+      money: this.withdrawSum,
     };
 
     this._withdrawMoneyUseCase.fetch(payload)
       .then(() => {
         this.getBankAccount(this.bankAccount?.id!);
+        this.getOperationsHistory(this.bankAccount?.id!);
       });
   }
 
   @action public refill() {
     const payload: IOperationPayload = {
-      bankAccountId: this.bankAccount?.id!,
-      sum: this.withdrawSum,
+      id: this.bankAccount?.id!,
+      money: this.refillSum,
     };
 
     this._refillMoneyUseCase.fetch(payload)
       .then(() => {
         this.getBankAccount(this.bankAccount?.id!);
+        this.getOperationsHistory(this.bankAccount?.id!);
       });
   }
 }

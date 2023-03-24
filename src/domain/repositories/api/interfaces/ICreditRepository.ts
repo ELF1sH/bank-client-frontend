@@ -1,15 +1,19 @@
-import { ICreateCreditTariffPayload, ICreditTariff } from '../../../entities/credit/creditTariff';
+import { ICreditTariff } from '../../../entities/credit/creditTariff';
+import { ICreditAccount } from '../../../entities/credit/creditAccount';
 
 export interface ICreditRepository {
   getCreditTariffs: () => Promise<ICreditTariff[]>;
-  createCreditTariff: (payload: ICreateCreditTariffPayload) => Promise<void>;
-  takeLoan: (payload: ITakeLoanPayload) => Promise<ITakeLoanResponse>;
+  getCreditAccounts: (payload: { id: string }) => Promise<ICreditAccount[]>;
+  getCreditAccount: (payload: { id: string }) => Promise<ICreditAccount>;
+  createCreditAccount:
+    (payload: ICreateCreditAccountPayload) => Promise<ICreateCreditAccountResponse>;
 }
 
-export interface ITakeLoanPayload {
+export interface ICreateCreditAccountPayload {
   tariffId: string;
+  ownerId: string;
 }
 
-export interface ITakeLoanResponse {
-  bankAccountID: string;
+export interface ICreateCreditAccountResponse {
+  id: string;
 }

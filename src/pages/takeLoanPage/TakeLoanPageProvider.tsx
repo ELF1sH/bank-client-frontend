@@ -6,7 +6,7 @@ import { TakeLoanPageViewModel } from './TakeLoanPageViewModel';
 import { GetCreditTariffsUseCase } from '../../domain/useCases/credits/GetCreditTariffsUseCase';
 import { creditRepository } from '../../domain/repositories/api/CreditRepository';
 import { useNotifications } from '../../modules/notification/useNotifications';
-import { TakeLoanUseCase } from '../../domain/useCases/credits/TakeLoanUseCase';
+import { CreateCreditAccountUseCase } from '../../domain/useCases/credits/CreateCreditAccountUseCase';
 
 const TakeLoanPageProvider: React.FC = () => {
   const { onError, onSuccess } = useNotifications();
@@ -18,13 +18,17 @@ const TakeLoanPageProvider: React.FC = () => {
     onError,
   );
 
-  const takeLoanUseCase = new TakeLoanUseCase(
-    creditRepository.takeLoan,
+  const createCreditAccountUseCase = new CreateCreditAccountUseCase(
+    creditRepository.createCreditAccount,
     onError,
     onSuccess,
   );
 
-  const viewModel = new TakeLoanPageViewModel(getCreditTariffsUseCase, takeLoanUseCase, navigate);
+  const viewModel = new TakeLoanPageViewModel(
+    getCreditTariffsUseCase,
+    createCreditAccountUseCase,
+    navigate,
+  );
 
   return (
     <TakeLoanPageController viewModel={viewModel} />

@@ -1,5 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
+import { axiosInstance as axios } from '../axiosInstance';
 import { IClientsRepository } from './interfaces/IClientsRepository';
 import { IClient } from '../../entities/users/client';
 
@@ -8,7 +9,7 @@ class ClientsRepository implements IClientsRepository {
     const { id } = payload;
 
     return axios
-      .get(`/client?id=${id}`)
+      .get(`/clients/${id}`)
       .then((response: AxiosResponse<IClient>) => response.data);
   }
 }

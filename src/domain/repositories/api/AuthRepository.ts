@@ -1,7 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import { IAuthRepository } from './interfaces/IAuthRepository';
 import { ILoginPayload, ILoginResponse } from '../../entities/auth/auth';
+import { axiosInstance as axios } from '../axiosInstance';
 
 class AuthRepository implements IAuthRepository {
   public login(payload: ILoginPayload) {

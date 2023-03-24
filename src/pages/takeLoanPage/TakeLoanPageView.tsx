@@ -12,7 +12,7 @@ export interface TakeLoanPageViewProps {
   tariffs: ICreditTariff[];
   chosenTariff?: string;
   onClickCard: (value: string) => void;
-  onClickTakeLoanBtn: () => Promise<void>;
+  onClickTakeLoanBtn: () => void;
 }
 
 const TakeLoanPageView: React.FC<TakeLoanPageViewProps> = ({

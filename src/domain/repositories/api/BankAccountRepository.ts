@@ -1,8 +1,9 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 
 import { IBankAccountRepository, IOperationPayload } from './interfaces/IBankAccountRepository';
 import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 import { IOperation } from '../../entities/bankAccounts/operation';
+import { axiosInstance as axios } from '../axiosInstance';
 
 class BankAccountRepository implements IBankAccountRepository {
   public getBankAccounts(payload: { id: string }) {
@@ -17,7 +18,7 @@ class BankAccountRepository implements IBankAccountRepository {
     const { id } = payload;
 
     return axios
-      .get(`/details-bank-account?id=${id}`)
+      .get(`/bank-account?id=${id}`)
       .then((response: AxiosResponse<IBankAccount>) => response.data);
   }
 
@@ -29,33 +30,29 @@ class BankAccountRepository implements IBankAccountRepository {
       .then((response: AxiosResponse<IOperation[]>) => response.data);
   }
 
-  public openBankAccount() {
+  public createBankAccount(payload: { ownerId: string }) {
     return axios
-      .get('/open-bank-account')
-      .then((response: AxiosResponse<IBankAccount>) => response.data);
+      .post('/create-bank-account', payload)
+      .then((response: AxiosResponse<{ id: string }>) => response.data);
   }
 
   public async closeBankAccount(payload: { id: string }) {
     const { id } = payload;
 
     await axios
-      .post(`/close-bank-account?id=${id}`)
+      .post(`/bank-accounts/${id}/close`)
       .then((response: AxiosResponse<void>) => response.data);
   }
 
   public async withdrawMoney(payload: IOperationPayload) {
-    const { bankAccountId, sum } = payload;
-
     await axios
-      .post(`/withdraw-bank-account?id=${bankAccountId}&money=${sum}`, payload)
+      .post('/withdraw-bank-account', payload)
       .then((response: AxiosResponse<void>) => response.data);
   }
 
   public async refillMoney(payload: IOperationPayload) {
-    const { bankAccountId, sum } = payload;
-
     await axios
-      .post(`/fill-bank-account?id=${bankAccountId}&money=${sum}`, payload)
+      .post('/fill-bank-account', payload)
       .then((response: AxiosResponse<void>) => response.data);
   }
 }

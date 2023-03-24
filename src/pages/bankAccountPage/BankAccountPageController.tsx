@@ -23,11 +23,7 @@ const BankAccountPageController: React.FC<BankAccountPageControllerProps> = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      await viewModel.getBankAccount(id!);
-
-      await viewModel.getOperationsHistory(id!);
-    })();
+    viewModel.init(id!);
   }, [viewModel, id]);
 
   const backToTheClientPage = () => {

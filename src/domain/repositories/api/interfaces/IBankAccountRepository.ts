@@ -5,13 +5,13 @@ export interface IBankAccountRepository {
   getBankAccounts: (payload: { id: string }) => Promise<IBankAccount[]>;
   getBankAccount: (payload: { id: string }) => Promise<IBankAccount>;
   getOperationsHistory: (payload: { id: string }) => Promise<IOperation[]>;
-  openBankAccount: () => Promise<IBankAccount>;
+  createBankAccount: (payload: { ownerId: string }) => Promise<{ id: string }>;
   closeBankAccount: (payload: { id: string }) => Promise<void>;
   withdrawMoney: (payload: IOperationPayload) => Promise<void>;
   refillMoney: (payload: IOperationPayload) => Promise<void>;
 }
 
 export interface IOperationPayload {
-  bankAccountId: string;
-  sum: number;
+  id: string;
+  money: number;
 }

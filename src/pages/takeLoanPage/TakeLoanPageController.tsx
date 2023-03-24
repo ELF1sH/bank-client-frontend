@@ -18,13 +18,18 @@ const TakeLoanPageController: React.FC<TakeLoanPageControllerProps> = ({
     viewModel.fetchTariffs();
   }, [viewModel]);
 
+  const onClickTakeLoanBtn = () => {
+    // TODO: ID IS HARDCODED
+    viewModel.takeLoan(viewModel.chosenTariff!, '2');
+  };
+
   return (
     <TakeLoanPageViewWithLoader
       isLoading={viewModel.isLoading}
       tariffs={viewModel.tariffs}
       chosenTariff={viewModel.chosenTariff}
       onClickCard={viewModel.chooseTariff}
-      onClickTakeLoanBtn={viewModel.takeLoan}
+      onClickTakeLoanBtn={onClickTakeLoanBtn}
     />
   );
 };

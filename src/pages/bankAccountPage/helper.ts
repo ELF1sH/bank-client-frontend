@@ -1,14 +1,12 @@
-import { OperationType } from '../../domain/entities/bankAccounts/operation';
-
-export const getColorByOperationType = (type: OperationType) => {
+export const getColorByOperationType = (type: string) => {
   switch (type) {
-    case OperationType.Incoming:
+    case 'Incoming':
       return 'green';
-    case OperationType.Withdrawal:
+    case 'Withdrawal':
       return 'red';
-    case OperationType.CreditIncoming:
+    case 'CreditIncoming':
       return 'yellow';
-    case OperationType.CreditRepayment:
+    case 'CreditRepayment':
       return 'orange';
     default:
       return 'Неизвестная операция';

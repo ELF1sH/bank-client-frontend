@@ -6,7 +6,7 @@ import { NavigateFunction } from 'react-router-dom';
 
 import { ICreditTariff } from '../../domain/entities/credit/creditTariff';
 import { GetCreditTariffsUseCase } from '../../domain/useCases/credits/GetCreditTariffsUseCase';
-import { TakeLoanUseCase } from '../../domain/useCases/credits/TakeLoanUseCase';
+import { CreateCreditAccountUseCase } from '../../domain/useCases/credits/CreateCreditAccountUseCase';
 
 export class TakeLoanPageViewModel {
   @observable private _tariffs: ICreditTariff[] = [];
@@ -17,7 +17,7 @@ export class TakeLoanPageViewModel {
 
   public constructor(
     private _getCreditTariffs: GetCreditTariffsUseCase,
-    private _takeLoanUseCase: TakeLoanUseCase,
+    private _createCreditAccountUseCase: CreateCreditAccountUseCase,
     private _navigate: NavigateFunction,
   ) {
     makeObservable(this);
@@ -60,19 +60,18 @@ export class TakeLoanPageViewModel {
       });
   }
 
-  @action public takeLoan = async () => {
+  @action public takeLoan = async (tariffId: string, ownerId: string) => {
     this._setIsLoading(true);
 
-    const res = await this._takeLoanUseCase.fetch({
-      tariffId: this.chosenTariff!,
+    const res = await this._createCreditAccountUseCase.fetch({
+      tariffId,
+      ownerId,
     });
 
     this._setIsLoading(false);
 
-    console.log(res);
-
     if (res) {
-      this._navigate(`/bank-accounts/${res.bankAccountID}`);
+      this._navigate(`/credit-accounts/${res.id}`);
     }
   };
 }

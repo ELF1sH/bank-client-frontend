@@ -4,12 +4,19 @@ import {
   ShowSuccessNotificationFunction,
   SuccessNotificationType,
 } from '../../../modules/notification/types';
-import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 import { APIUseCase } from '../common/APIUseCase';
+import {
+  ICreateCreditAccountPayload,
+  ICreateCreditAccountResponse,
+} from '../../repositories/api/interfaces/ICreditRepository';
 
-export class OpenBankAccountUseCase extends APIUseCase<void, IBankAccount> {
-  public constructor(
-    requestCallback: () => Promise<IBankAccount>,
+export class CreateCreditAccountUseCase extends APIUseCase<
+  ICreateCreditAccountPayload,
+  ICreateCreditAccountResponse
+> {
+  constructor(
+    requestCallback:
+      (payload: ICreateCreditAccountPayload) => Promise<ICreateCreditAccountResponse>,
     onError: ShowErrorFunction,
     onSuccess: ShowSuccessNotificationFunction,
   ) {

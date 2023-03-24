@@ -35,7 +35,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
       <Button
         style={{ width: '140px' }}
         icon={<PlusIcon />}
-        onClick={withdraw}
+        onClick={refill}
       >
         Refill
       </Button>
@@ -51,7 +51,7 @@ const BalanceCard: React.FC<BalanceCardProps> = ({
       <Button
         style={{ width: '140px' }}
         icon={<MinusIcon />}
-        onClick={refill}
+        onClick={withdraw}
       >
         Withdraw
       </Button>

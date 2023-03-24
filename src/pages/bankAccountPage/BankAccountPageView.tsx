@@ -6,10 +6,10 @@ import {
 } from 'antd';
 import Title from 'antd/es/typography/Title';
 import Column from 'antd/es/table/Column';
+import { observer } from 'mobx-react-lite';
 
 import PageHeader from '../../components/ui/molecules/pageHeader/PageHeader';
 import { IOperation } from '../../domain/entities/bankAccounts/operation';
-import { getOperationType } from '../../utils/enumMappers';
 import { getColorByOperationType } from './helper';
 import Button from '../../components/ui/atoms/button/Button';
 import BackIcon from '../../components/ui/atoms/icons/BackIcon';
@@ -46,7 +46,7 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
   <>
     <PageHeader header={`Bank account №${bankAccount.id}`}>
       <Button icon={<BackIcon />} onClick={backToTheClientPage}>Back to the client page</Button>
-      {!bankAccount.isClosed && <Button danger type="primary" onClick={closeBankAccount}>Close the bank account</Button>}
+      {!bankAccount.isClosed ? <Button danger type="primary" onClick={closeBankAccount}>Close the bank account</Button> : null}
     </PageHeader>
 
     <Paragraph>
@@ -56,7 +56,7 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
     </Paragraph>
 
     {
-      bankAccount.isClosed && <Tag color="red">Closed</Tag>
+      bankAccount.isClosed ? <Tag color="red">Closed</Tag> : null
     }
     {
       !bankAccount.isClosed && (
@@ -79,9 +79,23 @@ const BankAccountPageView: React.FC<BankAccountPageViewProps> = ({
       rowKey={(record) => record.id}
     >
       <Column title="Id" dataIndex="id" key="id" />
-      <Column title="Money" dataIndex="money" key="money" />
+      <Column title="Money" dataIndex="amount" key="amount" />
+      <Column
+        title="Date"
+        dataIndex="date"
+        key="date"
+        render={(_, { date }: IOperation) => (new Date(date).toLocaleString())}
+      />
+      <Column
+        title="Tags"
+        dataIndex="tags"
+        key="tags"
+        render={(_, { status }: IOperation) => (
+          <Tag color={getColorByOperationType(status)}>{status}</Tag>
+        )}
+      />
     </Table>
   </>
 );
 
-export default BankAccountPageView;
+export default observer(BankAccountPageView);

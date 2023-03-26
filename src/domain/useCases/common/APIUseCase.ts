@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+
 import {
   ErrorNotificationType,
   ShowErrorFunction,
@@ -5,7 +7,7 @@ import {
   SuccessNotificationType,
 } from '../../../modules/notification/types';
 
-export abstract class APIUseCase<RequestPayloadType, ResponseType> {
+export class APIUseCase<RequestPayloadType, ResponseType> {
   public constructor(
     private _requestCallback: (payload: RequestPayloadType) => Promise<ResponseType>,
     private readonly _onError: ShowErrorFunction,
@@ -15,18 +17,23 @@ export abstract class APIUseCase<RequestPayloadType, ResponseType> {
     private readonly _successMessage?: SuccessNotificationType,
   ) { }
 
-  public fetch(payload: RequestPayloadType): Promise<ResponseType | void> {
+  public fetch(payload: RequestPayloadType): Promise<ResponseType | undefined | void> {
     return this._requestCallback(payload)
-      .then((data: ResponseType) => {
+      .then((data: ResponseType | undefined = undefined) => {
         if (this._successMessage && this._onSuccess) {
           this._onSuccess(this._successMessage);
         }
 
         return data;
       })
-      .catch((e: Error) => {
-        this._onError(this._errorMessage);
-
+      .catch((e: AxiosError) => {
+        if (e.response?.status === 401) {
+          this._onError(ErrorNotificationType.FAILED_TO_AUTHENTICATE);
+        } else if (e.response?.status === 403) {
+          this._onError(ErrorNotificationType.FAILED_TO_AUTHORIZE);
+        } else {
+          this._onError(this._errorMessage);
+        }
         console.log(e);
       });
   }

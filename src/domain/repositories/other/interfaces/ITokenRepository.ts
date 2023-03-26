@@ -1,7 +1,7 @@
 export interface ITokenRepository {
   setAccessToken: (token: string) => void;
 
-  getAccessToken: () => string | null;
+  getAccessToken: () => string | undefined;
 
   removeAccessToken: () => void;
 }

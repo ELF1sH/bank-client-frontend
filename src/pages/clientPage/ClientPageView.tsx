@@ -29,81 +29,87 @@ const ClientPageView: React.FC<ClientPageViewProps> = ({
   onClickBankAccountRow,
   onClickCreditAccountRow,
   createBankAccount,
-}) => (
-  <>
-    <PageHeader header={`Client '${client.lastName} ${client.firstName}'`}>
-      <Button onClick={createBankAccount}>Open bank account</Button>
-    </PageHeader>
+}) => {
+  if (!client) {
+    return <h1>Error</h1>;
+  }
 
-    {
-      client.isBlocked ? <Tag style={{ marginBottom: '20px' }} color="red">BLOCKED</Tag> : null
-    }
+  return (
+    <>
+      <PageHeader header={`Client '${client.lastName} ${client.firstName}'`}>
+        <Button onClick={createBankAccount}>Open bank account</Button>
+      </PageHeader>
 
-    <Paragraph>
-      <Text strong>First name:</Text>
-      &nbsp;
-      {client.firstName}
-    </Paragraph>
-    <Paragraph>
-      <Text strong>last name:</Text>
-      &nbsp;
-      {client.lastName}
-    </Paragraph>
+      {
+        client.isBlocked ? <Tag style={{ marginBottom: '20px' }} color="red">BLOCKED</Tag> : null
+      }
 
-    <Title level={3}>Bank accounts</Title>
+      <Paragraph>
+        <Text strong>First name:</Text>
+        &nbsp;
+        {client.firstName}
+      </Paragraph>
+      <Paragraph>
+        <Text strong>last name:</Text>
+        &nbsp;
+        {client.lastName}
+      </Paragraph>
 
-    <Table
-      dataSource={bankAccounts}
-      pagination={false}
-      bordered
-      onRow={(record: IBankAccount) => ({
-        onClick: () => onClickBankAccountRow(record.id),
-      })}
-      rowKey={(record) => record.id}
-    >
-      <Column title="Account number" dataIndex="id" key="accountNumber" />
-      <Column title="Balance" dataIndex="balance" key="balance" />
-      <Column
-        title="Tags"
-        dataIndex="tags"
-        key="tags"
-        render={(_, record: IBankAccount) => (
-          <>
-            {record.isClosed ? <Tag color="red">Closed</Tag> : null}
-          </>
-        )}
-      />
-    </Table>
+      <Title level={3}>Bank accounts</Title>
 
-    <Title level={3}>Credit accounts</Title>
+      <Table
+        dataSource={bankAccounts}
+        pagination={false}
+        bordered
+        onRow={(record: IBankAccount) => ({
+          onClick: () => onClickBankAccountRow(record.id),
+        })}
+        rowKey={(record) => record.id}
+      >
+        <Column title="Account number" dataIndex="id" key="accountNumber" />
+        <Column title="Balance" dataIndex="balance" key="balance" />
+        <Column
+          title="Tags"
+          dataIndex="tags"
+          key="tags"
+          render={(_, record: IBankAccount) => (
+            <>
+              {record.isClosed ? <Tag color="red">Closed</Tag> : null}
+            </>
+          )}
+        />
+      </Table>
 
-    <Table
-      dataSource={creditAccounts}
-      pagination={false}
-      bordered
-      onRow={(record: IBankAccount) => ({
-        onClick: () => onClickCreditAccountRow(record.id),
-      })}
-      rowKey={(record) => record.id}
-    >
-      <Column title="Account number" dataIndex="accountNumber" key="accountNumber" />
-      <Column title="Balance" dataIndex="balance" key="balance" />
-      <Column title="Debt" dataIndex="debt" key="debt" />
-      <Column title="Interest rate" dataIndex="percent" key="percent" />
-      <Column title="Tariff ID" dataIndex="tariffId" key="tariffId" />
-      <Column title="Owner ID" dataIndex="ownerId" key="ownerId" />
-      <Column
-        title="Tags"
-        dataIndex="tags"
-        key="tags"
-        render={(_, record: IBankAccount) => (
-          <>
-            {record.isClosed ? <Tag color="red">Closed</Tag> : null}
-          </>
-        )}
-      />
-    </Table>
-  </>
-);
+      <Title level={3}>Credit accounts</Title>
+
+      <Table
+        dataSource={creditAccounts}
+        pagination={false}
+        bordered
+        onRow={(record: IBankAccount) => ({
+          onClick: () => onClickCreditAccountRow(record.id),
+        })}
+        rowKey={(record) => record.id}
+      >
+        <Column title="Account number" dataIndex="accountNumber" key="accountNumber" />
+        <Column title="Balance" dataIndex="balance" key="balance" />
+        <Column title="Debt" dataIndex="debt" key="debt" />
+        <Column title="Interest rate" dataIndex="percent" key="percent" />
+        <Column title="Tariff ID" dataIndex="tariffId" key="tariffId" />
+        <Column title="Owner ID" dataIndex="ownerId" key="ownerId" />
+        <Column
+          title="Tags"
+          dataIndex="tags"
+          key="tags"
+          render={(_, record: IBankAccount) => (
+            <>
+              {record.isClosed ? <Tag color="red">Closed</Tag> : null}
+            </>
+          )}
+        />
+      </Table>
+    </>
+  );
+};
 
 export default observer(ClientPageView);

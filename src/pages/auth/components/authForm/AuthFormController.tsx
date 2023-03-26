@@ -13,7 +13,7 @@ const AuthFormController: React.FC<AuthFormControllerProps> = ({ viewModel }) =>
   const { getValidateMessages } = useFormError();
 
   const onSubmit = async (username: string, password: string) => {
-    await viewModel.login(username, password);
+    // await viewModel.login(username, password);
   };
 
   return (

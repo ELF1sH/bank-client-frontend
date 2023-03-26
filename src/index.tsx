@@ -15,17 +15,15 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <MobxStoreProvider>
-      <ThemeProviderAnt>
-        <ThemeProviderStyledComponents>
-          <NotificationsProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </NotificationsProvider>
-        </ThemeProviderStyledComponents>
-      </ThemeProviderAnt>
-    </MobxStoreProvider>
-  </React.StrictMode>,
+  <MobxStoreProvider>
+    <ThemeProviderAnt>
+      <ThemeProviderStyledComponents>
+        <NotificationsProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </NotificationsProvider>
+      </ThemeProviderStyledComponents>
+    </ThemeProviderAnt>
+  </MobxStoreProvider>,
 );

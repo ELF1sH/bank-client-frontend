@@ -22,21 +22,9 @@ const AuthFormView: React.FC<AuthFormViewProps> = ({
     layout="vertical"
     validateMessages={getValidateMessages()}
   >
-    <FormItem
-      name="Username"
-      rules={[{ required: true }]}
-    >
-      <Input placeholder="Username" />
-    </FormItem>
-
-    <FormItem
-      name="Password"
-      rules={[{ required: true }]}
-    >
-      <InputPassword placeholder="Password" />
-    </FormItem>
-
-    <LoginButton type="primary" htmlType="submit" loading={isLoading}>Login</LoginButton>
+    <LoginButton type="primary" htmlType="submit" loading={isLoading} role="link" href="http://localhost:3002?redirect=client">
+      Войти
+    </LoginButton>
   </Form>
 );
 

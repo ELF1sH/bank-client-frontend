@@ -33,7 +33,7 @@ const BankAccountPageController: React.FC<BankAccountPageControllerProps> = ({
     const ws = new WebSocket('ws://localhost:8080');
 
     ws.onopen = () => {
-      console.log('Соединение установлено.');
+      console.log('Websocket Соединение установлено.');
 
       ws.send(JSON.stringify({
         msg_type: 'operations-all',

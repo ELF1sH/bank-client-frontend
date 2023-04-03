@@ -37,7 +37,6 @@ export class BankAccountPageViewModel {
 
     Promise.all([
       this.getBankAccount(id),
-      this.getOperationsHistory(id),
     ]).then(() => {
       this._setIsLoading(false);
     });
@@ -115,11 +114,9 @@ export class BankAccountPageViewModel {
       money: this.withdrawSum,
     };
 
-    this._withdrawMoneyUseCase.fetch(payload)
-      .then(() => {
-        this.getBankAccount(this.bankAccount?.id!);
-        this.getOperationsHistory(this.bankAccount?.id!);
-      });
+    (async () => {
+      await this._withdrawMoneyUseCase.fetch(payload);
+    })();
   }
 
   @action public refill() {
@@ -128,10 +125,8 @@ export class BankAccountPageViewModel {
       money: this.refillSum,
     };
 
-    this._refillMoneyUseCase.fetch(payload)
-      .then(() => {
-        this.getBankAccount(this.bankAccount?.id!);
-        this.getOperationsHistory(this.bankAccount?.id!);
-      });
+    (async () => {
+      await this._refillMoneyUseCase.fetch(payload);
+    })();
   }
 }

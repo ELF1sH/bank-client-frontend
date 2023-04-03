@@ -85,17 +85,6 @@ export class BankAccountPageViewModel {
       });
   }
 
-  @action public getOperationsHistory(id: string) {
-    return this._getOperationsHistoryUseCase.fetch({ id })
-      .then((operationsHistory) => {
-        if (operationsHistory) {
-          runInAction(() => {
-            this._operationsHistory = operationsHistory;
-          });
-        }
-      });
-  }
-
   @action public closeBankAccount() {
     this._setIsLoading(true);
 

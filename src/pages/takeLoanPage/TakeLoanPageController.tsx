@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
+import jwtDecode from 'jwt-decode';
 
 import TakeLoanPageView, { TakeLoanPageViewProps } from './TakeLoanPageView';
 import { TakeLoanPageViewModel } from './TakeLoanPageViewModel';
 import WithLoader from '../../components/ui/molecules/withLoader/WithLoader';
+import { tokenRepository } from '../../domain/repositories/other/TokenRepository';
+import { IAccessTokenPayload } from '../../domain/entities/auth/IAccessTokenPayload';
 
 const TakeLoanPageViewWithLoader = WithLoader<TakeLoanPageViewProps>(TakeLoanPageView, true);
 
@@ -14,13 +17,18 @@ interface TakeLoanPageControllerProps {
 const TakeLoanPageController: React.FC<TakeLoanPageControllerProps> = ({
   viewModel,
 }) => {
+  const accessToken = tokenRepository.getAccessToken();
+  const payload = jwtDecode(accessToken!) as IAccessTokenPayload;
+  const { roles } = payload;
+
+  const { id } = roles.find((role) => role.role === 'client')!;
+
   useEffect(() => {
     viewModel.fetchTariffs();
   }, [viewModel]);
 
   const onClickTakeLoanBtn = () => {
-    // TODO: ID IS HARDCODED
-    viewModel.takeLoan(viewModel.chosenTariff!, '2');
+    viewModel.takeLoan(viewModel.chosenTariff!, id);
   };
 
   return (

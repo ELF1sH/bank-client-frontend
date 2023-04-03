@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import jwtDecode from 'jwt-decode';
 
 import ClientPageView, { ClientPageViewProps } from './ClientPageView';
 import { ClientPageViewModel } from './ClientPageViewModel';
 import WithLoader from '../../components/ui/molecules/withLoader/WithLoader';
+import { tokenRepository } from '../../domain/repositories/other/TokenRepository';
+import { IAccessTokenPayload } from '../../domain/entities/auth/IAccessTokenPayload';
 
 const ClientPageViewWithLoader = WithLoader<ClientPageViewProps>(ClientPageView, true);
 
@@ -15,8 +18,11 @@ interface ClientPageControllerProps {
 const ClientPageController: React.FC<ClientPageControllerProps> = ({
   viewModel,
 }) => {
-  // TODO: NEED TO PARSE IT FROM A JWT TOKEN
-  const id = '2';
+  const accessToken = tokenRepository.getAccessToken();
+  const payload = jwtDecode(accessToken!) as IAccessTokenPayload;
+  const { roles } = payload;
+
+  const { id } = roles.find((role) => role.role === 'client')!;
 
   const navigate = useNavigate();
 
@@ -33,7 +39,6 @@ const ClientPageController: React.FC<ClientPageControllerProps> = ({
   };
 
   const createBankAccount = () => {
-    // TODO: ID IS HARDCODED
     viewModel.createBankAccount(id);
   };
 

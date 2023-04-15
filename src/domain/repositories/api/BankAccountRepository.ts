@@ -1,6 +1,6 @@
-import { AxiosResponse } from 'axios';
+import { Axios, AxiosResponse } from 'axios';
 
-import { IBankAccountRepository, IOperationPayload } from './interfaces/IBankAccountRepository';
+import { IBankAccountRepository, IOperationPayload, ISendMoneyPayload } from './interfaces/IBankAccountRepository';
 import { IBankAccount } from '../../entities/bankAccounts/bankAccount';
 import { IOperation } from '../../entities/bankAccounts/operation';
 import { axiosInstance, axiosInstance as axios } from '../axiosInstance';
@@ -53,6 +53,12 @@ class BankAccountRepository implements IBankAccountRepository {
   public async refillMoney(payload: IOperationPayload) {
     await axiosInstance
       .post('/fill-bank-account', payload)
+      .then((response: AxiosResponse<void>) => response.data);
+  }
+
+  public async sendMoney(payload: ISendMoneyPayload) {
+    await axiosInstance
+      .post('/send-money', payload)
       .then((response: AxiosResponse<void>) => response.data);
   }
 }

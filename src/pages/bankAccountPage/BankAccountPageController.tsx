@@ -25,6 +25,18 @@ const BankAccountPageController: React.FC<BankAccountPageControllerProps> = ({
 
   const [operations, setOperations] = useState<IOperation[]>([]);
 
+  const notifyMe = (operation: IOperation) => {
+    if (Notification.permission === 'granted') {
+      new Notification(`Type: ${operation.status}; Amount: ${operation.amount}`);
+    } else if (Notification.permission !== 'denied') {
+      Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          new Notification(`Type: ${operation.status}; Amount: ${operation.amount}`);
+        }
+      });
+    }
+  };
+
   useEffect(() => {
     viewModel.init(id!);
   }, [viewModel, id]);
@@ -48,8 +60,19 @@ const BankAccountPageController: React.FC<BankAccountPageControllerProps> = ({
       const data = JSON.parse(e.data);
 
       if (Array.isArray(data)) {
-        setOperations(data as IOperation[]);
-      } else {
+        const res = (data as IOperation[]).filter((operation) => {
+          if (operation.receiverId.toString() !== id) return false;
+
+          if (!!operation.receiverId && !!operation.senderId) {
+            return operation.receiverId.toString() === id;
+          }
+          return true;
+        });
+
+        setOperations((prev) => [...prev, ...res]);
+      } else if ((data as IOperation).receiverId.toString() === id) {
+        notifyMe(data as IOperation);
+
         setOperations((oldOperations) => [
           ...oldOperations,
           data as IOperation,
@@ -75,6 +98,7 @@ const BankAccountPageController: React.FC<BankAccountPageControllerProps> = ({
       closeBankAccount={() => viewModel.closeBankAccount()}
       withdraw={() => viewModel.withdraw()}
       refill={() => viewModel.refill()}
+      sendMoney={viewModel.sendMoney}
     />
   );
 };

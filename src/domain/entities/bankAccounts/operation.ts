@@ -1,6 +1,7 @@
 export interface IOperation {
   id: string;
-  receiverId: string;
+  receiverId: number;
+  senderId: number;
   amount: number;
   status: string;
   date: string;

@@ -9,9 +9,16 @@ export interface IBankAccountRepository {
   closeBankAccount: (payload: { id: string }) => Promise<void>;
   withdrawMoney: (payload: IOperationPayload) => Promise<void>;
   refillMoney: (payload: IOperationPayload) => Promise<void>;
+  sendMoney: (payload: ISendMoneyPayload) => Promise<void>;
 }
 
 export interface IOperationPayload {
   id: string;
+  money: number;
+}
+
+export interface ISendMoneyPayload {
+  receiverId: string;
+  senderId: string;
   money: number;
 }

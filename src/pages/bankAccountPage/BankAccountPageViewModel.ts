@@ -10,6 +10,7 @@ import { WithdrawMoneyUseCase } from '../../domain/useCases/bankAccounts/Withdra
 import { RefillMoneyUseCase } from '../../domain/useCases/bankAccounts/RefillMoneyUseCase';
 import { IOperationPayload } from '../../domain/repositories/api/interfaces/IBankAccountRepository';
 import { GetBankAccountUseCase } from '../../domain/useCases/bankAccounts/GetBankAccountUseCase';
+import { SendMoneyUseCase } from '../../domain/useCases/bankAccounts/SendMoneyUseCase';
 
 export class BankAccountPageViewModel {
   @observable private _isLoading: boolean = true;
@@ -28,6 +29,7 @@ export class BankAccountPageViewModel {
     private _closeBankAccountUseCase: CloseBankAccountUseCase,
     private _withdrawMoneyUseCase: WithdrawMoneyUseCase,
     private _refillMoneyUseCase: RefillMoneyUseCase,
+    private _sendMoneyUseCase: SendMoneyUseCase,
   ) {
     makeObservable(this);
   }
@@ -118,4 +120,14 @@ export class BankAccountPageViewModel {
       await this._refillMoneyUseCase.fetch(payload);
     })();
   }
+
+  public sendMoney = (receiverId: string, money: number) => {
+    (async () => {
+      await this._sendMoneyUseCase.fetch({
+        senderId: this.bankAccount?.id!,
+        receiverId,
+        money,
+      });
+    })();
+  };
 }
